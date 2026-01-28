@@ -1,0 +1,8 @@
+{
+  "id": "docker-expert",
+  "version": "1.0.0",
+  "name": "docker-expert",
+  "description": "Docker containerization expert, Dockerfile, image optimization, Compose",
+  "author": "Custom Skills",
+  "skills": ["./skills/docker-expert"]
+}

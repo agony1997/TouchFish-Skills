@@ -1,0 +1,8 @@
+{
+  "id": "event-storming-expert",
+  "version": "1.0.0",
+  "name": "event-storming-expert",
+  "description": "Event Storming facilitator, three-phase workshop, domain events",
+  "author": "Custom Skills",
+  "skills": ["./skills/event-storming-expert"]
+}

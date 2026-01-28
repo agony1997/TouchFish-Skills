@@ -1,0 +1,8 @@
+{
+  "id": "vue-expert",
+  "version": "1.0.0",
+  "name": "vue-expert",
+  "description": "Vue 2/3 framework expert, Composition API, Vue Router, Pinia",
+  "author": "Custom Skills",
+  "skills": ["./skills/vue-expert"]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "jpa-expert",
+  "version": "1.0.0",
+  "name": "jpa-expert",
+  "description": "Spring Data JPA expert, entity mapping, JPQL, Criteria API, performance",
+  "author": "Custom Skills",
+  "skills": ["./skills/jpa-expert"]
+}

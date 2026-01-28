@@ -1,0 +1,8 @@
+{
+  "id": "code-quality-expert",
+  "version": "1.0.0",
+  "name": "code-quality-expert",
+  "description": "Code quality expert for review, refactoring, SOLID, DDD compliance",
+  "author": "Custom Skills",
+  "skills": ["./skills/code-quality-expert"]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "sa-analyst",
+  "version": "1.0.0",
+  "name": "sa-analyst",
+  "description": "DDD system analyst, bounded context, use cases, acceptance criteria",
+  "author": "Custom Skills",
+  "skills": ["./skills/sa-analyst"]
+}

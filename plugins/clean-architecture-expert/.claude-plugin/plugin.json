@@ -1,0 +1,8 @@
+{
+  "id": "clean-architecture-expert",
+  "version": "1.0.0",
+  "name": "clean-architecture-expert",
+  "description": "Clean/Hexagonal architecture expert, dependency inversion",
+  "author": "Custom Skills",
+  "skills": ["./skills/clean-architecture-expert"]
+}

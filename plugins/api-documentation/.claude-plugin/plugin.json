@@ -1,0 +1,8 @@
+{
+  "id": "api-documentation",
+  "version": "1.0.0",
+  "name": "api-documentation",
+  "description": "API documentation generator using OpenAPI 3.0/Swagger",
+  "author": "Custom Skills",
+  "skills": ["./skills/api-documentation"]
+}

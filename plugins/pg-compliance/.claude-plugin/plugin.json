@@ -1,0 +1,8 @@
+{
+  "id": "pg-compliance",
+  "version": "1.0.0",
+  "name": "pg-compliance",
+  "description": "PG compliance expert for coding standards and discipline",
+  "author": "Custom Skills",
+  "skills": ["./skills/pg-compliance"]
+}

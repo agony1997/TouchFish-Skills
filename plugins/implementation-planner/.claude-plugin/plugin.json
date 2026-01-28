@@ -1,0 +1,8 @@
+{
+  "id": "implementation-planner",
+  "version": "1.0.0",
+  "name": "implementation-planner",
+  "description": "Implementation planner, SD output to executable TDD tasks",
+  "author": "Custom Skills",
+  "skills": ["./skills/implementation-planner"]
+}

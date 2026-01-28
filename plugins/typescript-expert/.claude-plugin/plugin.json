@@ -1,0 +1,8 @@
+{
+  "id": "typescript-expert",
+  "version": "1.0.0",
+  "name": "typescript-expert",
+  "description": "TypeScript type system expert, generics, advanced types, utility types",
+  "author": "Custom Skills",
+  "skills": ["./skills/typescript-expert"]
+}

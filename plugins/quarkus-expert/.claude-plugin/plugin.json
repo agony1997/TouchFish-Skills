@@ -1,0 +1,8 @@
+{
+  "id": "quarkus-expert",
+  "version": "1.0.0",
+  "name": "quarkus-expert",
+  "description": "Quarkus framework expert for cloud-native Java applications",
+  "author": "Custom Skills",
+  "skills": ["./skills/quarkus-expert"]
+}

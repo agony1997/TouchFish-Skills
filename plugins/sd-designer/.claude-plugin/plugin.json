@@ -1,0 +1,8 @@
+{
+  "id": "sd-designer",
+  "version": "1.0.0",
+  "name": "sd-designer",
+  "description": "DDD tactical designer, aggregate/entity/VO design, API alignment",
+  "author": "Custom Skills",
+  "skills": ["./skills/sd-designer"]
+}

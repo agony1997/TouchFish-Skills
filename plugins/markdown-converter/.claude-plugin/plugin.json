@@ -1,0 +1,8 @@
+{
+  "id": "markdown-converter",
+  "version": "1.0.0",
+  "name": "markdown-converter",
+  "description": "Markdown format converter supporting HTML, PDF, DOCX",
+  "author": "Custom Skills",
+  "skills": ["./skills/markdown-converter"]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "mysql-expert",
+  "version": "1.0.0",
+  "name": "mysql-expert",
+  "description": "MySQL database expert, index and query optimization, replication",
+  "author": "Custom Skills",
+  "skills": ["./skills/mysql-expert"]
+}

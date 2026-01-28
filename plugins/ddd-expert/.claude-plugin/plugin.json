@@ -1,0 +1,8 @@
+{
+  "id": "ddd-expert",
+  "version": "1.0.0",
+  "name": "ddd-expert",
+  "description": "Domain-Driven Design expert, strategic and tactical design, CQRS",
+  "author": "Custom Skills",
+  "skills": ["./skills/ddd-expert"]
+}

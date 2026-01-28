@@ -1,0 +1,8 @@
+{
+  "id": "technical-presentation",
+  "version": "1.0.0",
+  "name": "technical-presentation",
+  "description": "Technical presentation generator using python-pptx for PowerPoint",
+  "author": "Custom Skills",
+  "skills": ["./skills/technical-presentation"]
+}

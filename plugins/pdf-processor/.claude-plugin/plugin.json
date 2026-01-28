@@ -1,0 +1,8 @@
+{
+  "id": "pdf-processor",
+  "version": "1.0.0",
+  "name": "pdf-processor",
+  "description": "PDF processing toolkit for merge, split, extract, watermark",
+  "author": "Custom Skills",
+  "skills": ["./skills/pdf-processor"]
+}

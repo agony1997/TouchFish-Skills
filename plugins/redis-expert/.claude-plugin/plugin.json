@@ -1,0 +1,8 @@
+{
+  "id": "redis-expert",
+  "version": "1.0.0",
+  "name": "redis-expert",
+  "description": "Redis cache and data structure expert, distributed locks, Cluster",
+  "author": "Custom Skills",
+  "skills": ["./skills/redis-expert"]
+}

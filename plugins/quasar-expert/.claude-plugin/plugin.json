@@ -1,0 +1,8 @@
+{
+  "id": "quasar-expert",
+  "version": "1.0.0",
+  "name": "quasar-expert",
+  "description": "Quasar Framework expert for Vue 3 multi-platform apps",
+  "author": "Custom Skills",
+  "skills": ["./skills/quasar-expert"]
+}

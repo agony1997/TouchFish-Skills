@@ -1,0 +1,8 @@
+{
+  "id": "architect-expert",
+  "version": "1.0.0",
+  "name": "architect-expert",
+  "description": "System architect expert for technology selection and architecture design",
+  "author": "Custom Skills",
+  "skills": ["./skills/architect-expert"]
+}

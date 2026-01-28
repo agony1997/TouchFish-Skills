@@ -1,0 +1,8 @@
+{
+  "id": "git-expert",
+  "version": "1.0.0",
+  "name": "git-expert",
+  "description": "Git expert for commits, PRs, branch strategy, releases, changelog",
+  "author": "Custom Skills",
+  "skills": ["./skills/git-expert"]
+}

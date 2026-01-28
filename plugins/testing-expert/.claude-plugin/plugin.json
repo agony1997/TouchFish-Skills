@@ -1,0 +1,8 @@
+{
+  "id": "testing-expert",
+  "version": "1.0.0",
+  "name": "testing-expert",
+  "description": "Testing expert, TDD methodology and test strategy design",
+  "author": "Custom Skills",
+  "skills": ["./skills/testing-expert"]
+}

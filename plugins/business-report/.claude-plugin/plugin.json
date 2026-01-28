@@ -1,0 +1,8 @@
+{
+  "id": "business-report",
+  "version": "1.0.0",
+  "name": "business-report",
+  "description": "Business report generator for weekly, monthly, quarterly reports",
+  "author": "Custom Skills",
+  "skills": ["./skills/business-report"]
+}

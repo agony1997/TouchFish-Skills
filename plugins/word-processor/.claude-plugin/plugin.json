@@ -1,0 +1,8 @@
+{
+  "id": "word-processor",
+  "version": "1.0.0",
+  "name": "word-processor",
+  "description": "Word document creation, editing, and conversion toolkit",
+  "author": "Custom Skills",
+  "skills": ["./skills/word-processor"]
+}

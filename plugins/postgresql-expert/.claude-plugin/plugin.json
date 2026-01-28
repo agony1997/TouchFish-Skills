@@ -1,0 +1,8 @@
+{
+  "id": "postgresql-expert",
+  "version": "1.0.0",
+  "name": "postgresql-expert",
+  "description": "PostgreSQL advanced expert, JSONB, full-text search, partitioning",
+  "author": "Custom Skills",
+  "skills": ["./skills/postgresql-expert"]
+}

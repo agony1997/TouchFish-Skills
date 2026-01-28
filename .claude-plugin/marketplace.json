@@ -1,0 +1,270 @@
+{
+  "name": "all-skills",
+  "version": "3.0.0",
+  "owner": "Custom Skills",
+  "description": "所有技能的 Marketplace：33 個獨立可安裝 plugin，含專業技術與辦公自動化技能",
+  "profiles": [
+    {
+      "id": "java-personal-dev",
+      "displayName": "Java 個人開發配置",
+      "description": "個人獨立開發者 DDD 全流程配置：Event Storming → SA 領域分析 → SD 戰術設計 → DB 設計 → 實作規劃 → TDD 開發 → 品質審查與重構。搭配 Spring Boot + JPA + PostgreSQL + Quasar 技術棧。",
+      "tags": ["java", "personal", "fullstack", "ddd", "spring-boot", "jpa", "postgresql", "quasar", "event-storming", "code-quality"],
+      "plugins": [
+        "architect-expert", "sa-analyst", "sd-designer", "db-designer",
+        "event-storming-expert", "implementation-planner",
+        "ddd-expert", "microservices-expert", "clean-architecture-expert",
+        "testing-expert", "code-quality-expert",
+        "spring-boot-expert", "jpa-expert",
+        "vue-expert", "quasar-expert", "typescript-expert",
+        "postgresql-expert", "redis-expert",
+        "git-expert", "docker-expert", "cicd-expert",
+        "api-documentation", "chart-generator"
+      ]
+    },
+    {
+      "id": "java-company-dev",
+      "displayName": "Java 公司開發配置",
+      "description": "公司團隊 PG 角色配置：Quarkus + MSSQL + Quasar 技術棧，遵規導向，TDD 開發流程",
+      "tags": ["java", "company", "pg", "quarkus", "mssql", "quasar", "tdd"],
+      "plugins": [
+        "pg-compliance", "quarkus-expert", "mssql-expert",
+        "quasar-expert", "vue-expert", "typescript-expert",
+        "testing-expert", "code-quality-expert",
+        "git-expert", "api-documentation"
+      ]
+    }
+  ],
+  "plugins": [
+    {
+      "name": "architect-expert",
+      "source": "./plugins/architect-expert",
+      "description": "系統架構師專家，負責技術選型與架構設計",
+      "category": "ddd-workflow",
+      "tags": ["architect", "架構師", "架構設計", "技術選型", "system architecture"]
+    },
+    {
+      "name": "api-documentation",
+      "source": "./plugins/api-documentation",
+      "description": "API 文檔生成工具，使用 OpenAPI 3.0/Swagger 規格",
+      "category": "office-tools",
+      "tags": ["api", "openapi", "swagger", "documentation", "API文檔"]
+    },
+    {
+      "name": "business-report",
+      "source": "./plugins/business-report",
+      "description": "商業報告生成工具，支援週報、月報、季報與主管摘要",
+      "category": "office-tools",
+      "tags": ["report", "週報", "月報", "季報", "商業報告", "KPI"]
+    },
+    {
+      "name": "chart-generator",
+      "source": "./plugins/chart-generator",
+      "description": "圖表生成工具，使用 Mermaid 和 PlantUML",
+      "category": "office-tools",
+      "tags": ["chart", "mermaid", "plantuml", "uml", "diagram", "圖表"]
+    },
+    {
+      "name": "cicd-expert",
+      "source": "./plugins/cicd-expert",
+      "description": "CI/CD 持續整合與部署專家，專精 GitHub Actions、GitLab CI、Jenkins",
+      "category": "devops",
+      "tags": ["cicd", "github-actions", "gitlab-ci", "jenkins", "pipeline", "持續整合"]
+    },
+    {
+      "name": "clean-architecture-expert",
+      "source": "./plugins/clean-architecture-expert",
+      "description": "整潔架構/六邊形架構專家，專精依賴反轉與分層架構",
+      "category": "architecture",
+      "tags": ["clean-architecture", "hexagonal", "ports-and-adapters", "整潔架構", "六邊形架構"]
+    },
+    {
+      "name": "code-quality-expert",
+      "source": "./plugins/code-quality-expert",
+      "description": "程式碼品質專家，整合審查與重構：SOLID、DDD 合規、壞味道識別",
+      "category": "testing",
+      "tags": ["code-review", "refactor", "solid", "程式碼審查", "重構", "品質檢查"]
+    },
+    {
+      "name": "db-designer",
+      "source": "./plugins/db-designer",
+      "description": "DDD 導向資料庫設計專家，聚合邊界→表結構映射、DDL、Flyway",
+      "category": "ddd-workflow",
+      "tags": ["database-design", "erd", "ddl", "flyway", "schema", "資料庫設計"]
+    },
+    {
+      "name": "ddd-expert",
+      "source": "./plugins/ddd-expert",
+      "description": "領域驅動設計專家，戰略設計與戰術設計、事件溯源、CQRS",
+      "category": "architecture",
+      "tags": ["ddd", "domain-driven-design", "bounded-context", "aggregate", "領域驅動"]
+    },
+    {
+      "name": "docker-expert",
+      "source": "./plugins/docker-expert",
+      "description": "Docker 容器化專家，Dockerfile、映像優化、Docker Compose",
+      "category": "devops",
+      "tags": ["docker", "container", "dockerfile", "docker-compose", "容器化"]
+    },
+    {
+      "name": "event-storming-expert",
+      "source": "./plugins/event-storming-expert",
+      "description": "Event Storming 引導專家，三階段工作坊引導與領域事件產出",
+      "category": "ddd-workflow",
+      "tags": ["event-storming", "domain-event", "事件風暴", "領域事件", "aggregate"]
+    },
+    {
+      "name": "excel-converter",
+      "source": "./plugins/excel-converter",
+      "description": "Excel/CSV/JSON 格式互轉與資料處理工具",
+      "category": "office-tools",
+      "tags": ["excel", "csv", "json", "data-conversion", "格式互轉"]
+    },
+    {
+      "name": "git-expert",
+      "source": "./plugins/git-expert",
+      "description": "Git 全方位專家：Commit、PR、分支策略、版本發布與 Changelog",
+      "category": "git",
+      "tags": ["git", "commit", "pull-request", "branch", "release", "conventional-commits"]
+    },
+    {
+      "name": "implementation-planner",
+      "source": "./plugins/implementation-planner",
+      "description": "實作規劃專家，接收 SD 設計產出，拆解為可執行 TDD 任務",
+      "category": "ddd-workflow",
+      "tags": ["implementation", "task-breakdown", "tdd", "實作規劃", "任務拆解"]
+    },
+    {
+      "name": "jpa-expert",
+      "source": "./plugins/jpa-expert",
+      "description": "Spring Data JPA 專家，實體映射、JPQL、Criteria API、效能優化",
+      "category": "java-spring",
+      "tags": ["jpa", "hibernate", "orm", "jpql", "spring-data-jpa", "實體映射"]
+    },
+    {
+      "name": "markdown-converter",
+      "source": "./plugins/markdown-converter",
+      "description": "Markdown 格式互轉工具，支援 HTML、PDF、DOCX",
+      "category": "office-tools",
+      "tags": ["markdown", "html", "pdf", "docx", "format-conversion", "文檔轉換"]
+    },
+    {
+      "name": "microservices-expert",
+      "source": "./plugins/microservices-expert",
+      "description": "微服務架構模式專家，服務拆分、API Gateway、分散式事務",
+      "category": "architecture",
+      "tags": ["microservices", "service-mesh", "api-gateway", "微服務", "分散式系統"]
+    },
+    {
+      "name": "mssql-expert",
+      "source": "./plugins/mssql-expert",
+      "description": "Microsoft SQL Server 資料庫專家，精通 T-SQL 與效能調校",
+      "category": "database",
+      "tags": ["mssql", "sql-server", "t-sql", "資料庫"]
+    },
+    {
+      "name": "mysql-expert",
+      "source": "./plugins/mysql-expert",
+      "description": "MySQL 資料庫專家，索引優化、查詢優化、複製架構",
+      "category": "database",
+      "tags": ["mysql", "database", "sql", "index", "索引優化", "查詢優化"]
+    },
+    {
+      "name": "pdf-processor",
+      "source": "./plugins/pdf-processor",
+      "description": "PDF 處理工具，合併、分割、提取、建立、浮水印",
+      "category": "office-tools",
+      "tags": ["pdf", "merge", "split", "extract", "watermark", "PDF處理"]
+    },
+    {
+      "name": "pg-compliance",
+      "source": "./plugins/pg-compliance",
+      "description": "PG 紀律遵規專家，遵守規格書與程式碼風格",
+      "category": "testing",
+      "tags": ["compliance", "coding-standards", "遵規", "紀律", "programmer"]
+    },
+    {
+      "name": "postgresql-expert",
+      "source": "./plugins/postgresql-expert",
+      "description": "PostgreSQL 進階專家，JSON/JSONB、全文搜尋、分區表、窗口函數",
+      "category": "database",
+      "tags": ["postgresql", "postgres", "jsonb", "full-text-search", "全文搜尋"]
+    },
+    {
+      "name": "quarkus-expert",
+      "source": "./plugins/quarkus-expert",
+      "description": "Quarkus 框架開發專家，精通雲原生 Java 應用",
+      "category": "java-spring",
+      "tags": ["quarkus", "cloud-native", "java", "雲原生"]
+    },
+    {
+      "name": "quasar-expert",
+      "source": "./plugins/quasar-expert",
+      "description": "Quasar Framework 開發專家，精通 Vue 3 多平台應用",
+      "category": "frontend",
+      "tags": ["quasar", "vue3", "spa", "pwa", "前端框架"]
+    },
+    {
+      "name": "redis-expert",
+      "source": "./plugins/redis-expert",
+      "description": "Redis 快取與資料結構專家，快取策略、分散式鎖、Cluster",
+      "category": "database",
+      "tags": ["redis", "cache", "pub-sub", "distributed-lock", "快取"]
+    },
+    {
+      "name": "sa-analyst",
+      "source": "./plugins/sa-analyst",
+      "description": "DDD 導向系統分析師，限界上下文、Use Case、驗收標準、通用語言",
+      "category": "ddd-workflow",
+      "tags": ["system-analysis", "use-case", "bounded-context", "系統分析", "需求分析"]
+    },
+    {
+      "name": "sd-designer",
+      "source": "./plugins/sd-designer",
+      "description": "DDD 戰術設計師，聚合/Entity/VO 設計、API 對齊、序列圖",
+      "category": "ddd-workflow",
+      "tags": ["system-design", "aggregate-design", "sequence-diagram", "系統設計", "詳細設計"]
+    },
+    {
+      "name": "spring-boot-expert",
+      "source": "./plugins/spring-boot-expert",
+      "description": "Spring Boot 2.x/3.x 全方位開發專家，自動配置、Starter、Actuator",
+      "category": "java-spring",
+      "tags": ["spring-boot", "spring", "java", "rest-api", "微服務"]
+    },
+    {
+      "name": "technical-presentation",
+      "source": "./plugins/technical-presentation",
+      "description": "技術簡報生成工具，使用 python-pptx 建立 PowerPoint",
+      "category": "office-tools",
+      "tags": ["powerpoint", "pptx", "presentation", "slides", "技術簡報"]
+    },
+    {
+      "name": "testing-expert",
+      "source": "./plugins/testing-expert",
+      "description": "測試專家，TDD 測試驅動開發、測試策略設計",
+      "category": "testing",
+      "tags": ["tdd", "unit-test", "test-driven", "測試驅動", "單元測試"]
+    },
+    {
+      "name": "typescript-expert",
+      "source": "./plugins/typescript-expert",
+      "description": "TypeScript 型別系統專家，泛型、進階型別、工具型別",
+      "category": "frontend",
+      "tags": ["typescript", "type-system", "generic", "interface", "型別"]
+    },
+    {
+      "name": "vue-expert",
+      "source": "./plugins/vue-expert",
+      "description": "Vue 2/3 框架開發專家，Composition API、Vue Router、Pinia",
+      "category": "frontend",
+      "tags": ["vue", "vue3", "composition-api", "pinia", "vue-router", "組件開發"]
+    },
+    {
+      "name": "word-processor",
+      "source": "./plugins/word-processor",
+      "description": "Word 文檔建立、編輯與轉換工具",
+      "category": "office-tools",
+      "tags": ["word", "docx", "document", "formatting", "Word文檔"]
+    }
+  ]
+}

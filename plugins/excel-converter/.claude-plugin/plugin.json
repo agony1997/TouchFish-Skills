@@ -1,0 +1,8 @@
+{
+  "id": "excel-converter",
+  "version": "1.0.0",
+  "name": "excel-converter",
+  "description": "Excel/CSV/JSON format conversion and data processing toolkit",
+  "author": "Custom Skills",
+  "skills": ["./skills/excel-converter"]
+}

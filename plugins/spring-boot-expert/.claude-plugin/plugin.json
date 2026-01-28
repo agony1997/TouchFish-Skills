@@ -1,0 +1,8 @@
+{
+  "id": "spring-boot-expert",
+  "version": "1.0.0",
+  "name": "spring-boot-expert",
+  "description": "Spring Boot 2.x/3.x expert, auto-config, Starter, Actuator",
+  "author": "Custom Skills",
+  "skills": ["./skills/spring-boot-expert"]
+}
