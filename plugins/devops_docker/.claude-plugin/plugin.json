@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "devops_docker",
+  "description": "Docker containerization expert, Dockerfile, image optimization, Compose",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/devops_docker"
+  ]
+}

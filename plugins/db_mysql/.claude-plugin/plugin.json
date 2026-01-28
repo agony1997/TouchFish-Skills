@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "db_mysql",
+  "description": "MySQL database expert, index and query optimization, replication",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/db_mysql"
+  ]
+}

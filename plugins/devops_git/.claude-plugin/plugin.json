@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "devops_git",
+  "description": "Git expert for commits, PRs, branch strategy, releases, changelog",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/devops_git"
+  ]
+}

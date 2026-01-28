@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "db_mssql",
+  "description": "Microsoft SQL Server expert, T-SQL and performance tuning",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/db_mssql"
+  ]
+}

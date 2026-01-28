@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "tools_business-report",
+  "description": "Business report generator for weekly, monthly, quarterly reports",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/tools_business-report"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "devops_cicd",
+  "description": "CI/CD expert for GitHub Actions, GitLab CI, Jenkins pipelines",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/devops_cicd"
+  ]
+}
