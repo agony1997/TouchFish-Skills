@@ -1,0 +1,11 @@
+﻿{
+  "version": "1.0.0",
+  "name": "backend_spring-boot",
+  "description": "Spring Boot 全方位開發：REST API、自動配置、JPA/資料存取、效能優化",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/backend_spring-boot"
+  ]
+}

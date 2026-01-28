@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "tools_chart-generator",
+  "description": "Chart and diagram generator using Mermaid and PlantUML",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/tools_chart-generator"
+  ]
+}

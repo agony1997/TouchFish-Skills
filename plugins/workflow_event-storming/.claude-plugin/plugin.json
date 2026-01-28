@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "workflow_event-storming",
+  "description": "Event Storming facilitator, three-phase workshop, domain events",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/workflow_event-storming"
+  ]
+}

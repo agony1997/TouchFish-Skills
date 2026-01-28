@@ -1,8 +1,0 @@
-{
-  "id": "db-designer",
-  "version": "1.0.0",
-  "name": "db-designer",
-  "description": "DDD-oriented database designer, aggregate-to-table mapping, DDL, Flyway",
-  "author": "Custom Skills",
-  "skills": ["./skills/db-designer"]
-}

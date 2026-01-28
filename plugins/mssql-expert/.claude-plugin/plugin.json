@@ -1,8 +1,0 @@
-{
-  "id": "mssql-expert",
-  "version": "1.0.0",
-  "name": "mssql-expert",
-  "description": "Microsoft SQL Server expert, T-SQL and performance tuning",
-  "author": "Custom Skills",
-  "skills": ["./skills/mssql-expert"]
-}

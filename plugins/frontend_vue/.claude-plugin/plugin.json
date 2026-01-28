@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "frontend_vue",
+  "description": "Vue 2/3 framework expert, Composition API, Vue Router, Pinia",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/frontend_vue"
+  ]
+}

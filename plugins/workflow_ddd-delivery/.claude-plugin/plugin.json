@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "workflow_ddd-delivery",
+  "description": "DDD 端到端交付：SA 領域分析 → SD 戰術設計 → 實作規劃",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/workflow_ddd-delivery"
+  ]
+}
