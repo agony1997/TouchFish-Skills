@@ -1,0 +1,31 @@
+{
+  "enabledPlugins": {
+    "all-skills": true,
+    "subtask": true,
+    "devops_git@all-skills": true,
+    "tools_api-docs@all-skills": true,
+    "tools_business-report@all-skills": true,
+    "tools_chart-generator@all-skills": true,
+    "tools_excel-converter@all-skills": true,
+    "tools_markdown-converter@all-skills": true,
+    "tools_pdf-processor@all-skills": true,
+    "tools_tech-presentation@all-skills": true
+  },
+  "language": "繁體中文",
+  "autoUpdatesChannel": "latest",
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read",
+      "Edit",
+      "Write",
+      "NotebookEdit",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git push)"
+    ]
+  }
+}

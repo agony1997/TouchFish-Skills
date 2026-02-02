@@ -1,96 +1,51 @@
 {
   "name": "all-skills",
-  "version": "3.1.0",
+  "version": "3.5.0",
   "owner": {
     "name": "agony1997"
   },
-  "description": "所有技能的 Marketplace：28 個獨立可安裝 plugin（含前綴分類），含專業技術與辦公自動化技能",
-  "profiles": [
-    {
-      "id": "java-personal-dev",
-      "displayName": "Java 個人開發配置",
-      "description": "個人獨立開發者 DDD 全流程配置：Event Storming → SA 領域分析 → SD 戰術設計 → DB 設計 → 實作規劃 → TDD 開發 → 品質審查與重構。搭配 Spring Boot + JPA + PostgreSQL + Quasar 技術棧。",
-      "tags": ["java", "personal", "fullstack", "ddd", "spring-boot", "jpa", "postgresql", "quasar", "event-storming", "code-quality"],
-      "plugins": [
-        "arch_system-design", "workflow_ddd-delivery", "db_schema-design",
-        "workflow_event-storming",
-        "arch_ddd", "arch_microservices",
-        "quality_testing-review",
-        "backend_spring-boot",
-        "frontend_vue", "frontend_quasar", "frontend_typescript",
-        "db_postgresql", "db_redis",
-        "devops_git", "devops_docker", "devops_cicd",
-        "tools_api-docs", "tools_chart-generator"
-      ]
-    },
-    {
-      "id": "java-company-dev",
-      "displayName": "Java 公司開發配置",
-      "description": "公司團隊 PG 角色配置：Quarkus + MSSQL + Quasar 技術棧，遵規導向，TDD 開發流程",
-      "tags": ["java", "company", "pg", "quarkus", "mssql", "quasar", "tdd"],
-      "plugins": [
-        "compliance_pg-standards", "backend_quarkus", "db_mssql",
-        "frontend_quasar", "frontend_vue", "frontend_typescript",
-        "quality_testing-review",
-        "devops_git", "tools_api-docs"
-      ]
-    }
-  ],
+  "description": "所有技能的 Marketplace：26 個技能插件 + 3 個複合技能（含前綴分類）",
   "plugins": [
     {
-      "name": "arch_system-design",
-      "source": "./plugins/arch_system-design",
+      "name": "core_system-design",
+      "source": "./plugins/core_system-design",
       "description": "系統架構設計：技術選型、架構模式、NFR 規劃、整潔架構/六邊形架構",
-      "category": "architecture",
+      "category": "core",
       "tags": ["architect", "架構師", "架構設計", "技術選型", "system architecture", "clean-architecture", "hexagonal"]
     },
     {
-      "name": "arch_ddd",
-      "source": "./plugins/arch_ddd",
-      "description": "領域驅動設計專家，戰略設計與戰術設計、事件溯源、CQRS",
-      "category": "architecture",
-      "tags": ["ddd", "domain-driven-design", "bounded-context", "aggregate", "領域驅動"]
-    },
-    {
-      "name": "arch_microservices",
-      "source": "./plugins/arch_microservices",
+      "name": "core_microservices",
+      "source": "./plugins/core_microservices",
       "description": "微服務架構模式專家，服務拆分、API Gateway、分散式事務",
-      "category": "architecture",
+      "category": "core",
       "tags": ["microservices", "service-mesh", "api-gateway", "微服務", "分散式系統"]
     },
     {
-      "name": "workflow_event-storming",
-      "source": "./plugins/workflow_event-storming",
-      "description": "Event Storming 引導專家，三階段工作坊引導與領域事件產出",
-      "category": "ddd-workflow",
-      "tags": ["event-storming", "domain-event", "事件風暴", "領域事件", "aggregate"]
+      "name": "core_ddd-delivery",
+      "source": "./plugins/core_ddd-delivery",
+      "description": "DDD 端到端交付：DDD 理論基礎 → Event Storming → SA 領域分析 → SD 戰術設計 → 實作規劃",
+      "category": "core",
+      "tags": ["ddd", "domain-driven-design", "event-storming", "sa", "sd", "system-analysis", "system-design", "implementation", "cqrs", "event-sourcing", "端到端", "DDD交付", "事件風暴"]
     },
     {
-      "name": "workflow_ddd-delivery",
-      "source": "./plugins/workflow_ddd-delivery",
-      "description": "DDD 端到端交付：SA 領域分析 → SD 戰術設計 → 實作規劃",
-      "category": "ddd-workflow",
-      "tags": ["sa", "sd", "system-analysis", "system-design", "implementation", "端到端", "DDD交付"]
-    },
-    {
-      "name": "backend_spring-boot",
-      "source": "./plugins/backend_spring-boot",
+      "name": "core_spring-boot",
+      "source": "./plugins/core_spring-boot",
       "description": "Spring Boot 全方位開發：REST API、自動配置、JPA/資料存取、效能優化",
-      "category": "backend",
+      "category": "core",
       "tags": ["spring-boot", "spring", "java", "rest-api", "jpa", "hibernate", "微服務"]
     },
     {
-      "name": "backend_quarkus",
-      "source": "./plugins/backend_quarkus",
+      "name": "core_quarkus",
+      "source": "./plugins/core_quarkus",
       "description": "Quarkus 框架開發專家，精通雲原生 Java 應用",
-      "category": "backend",
+      "category": "core",
       "tags": ["quarkus", "cloud-native", "java", "雲原生"]
     },
     {
-      "name": "quality_testing-review",
-      "source": "./plugins/quality_testing-review",
+      "name": "core_testing-review",
+      "source": "./plugins/core_testing-review",
       "description": "品質保證：TDD 測試驅動、測試策略、程式碼審查、壞味道識別、重構",
-      "category": "quality",
+      "category": "core",
       "tags": ["tdd", "unit-test", "test-driven", "code-review", "refactor", "品質檢查", "測試驅動"]
     },
     {
@@ -171,10 +126,10 @@
       "tags": ["git", "commit", "pull-request", "branch", "release", "conventional-commits"]
     },
     {
-      "name": "compliance_pg-standards",
-      "source": "./plugins/compliance_pg-standards",
+      "name": "core_pg-standards",
+      "source": "./plugins/core_pg-standards",
       "description": "PG 紀律遵規專家，遵守規格書與程式碼風格",
-      "category": "compliance",
+      "category": "core",
       "tags": ["compliance", "coding-standards", "遵規", "紀律", "programmer"]
     },
     {
@@ -232,6 +187,27 @@
       "description": "Word 文檔建立、編輯與轉換工具",
       "category": "tools",
       "tags": ["word", "docx", "document", "formatting", "Word文檔"]
+    },
+    {
+      "name": "composite_architect",
+      "source": "./plugins/composite_architect",
+      "description": "複合技能：系統設計 + DDD 端到端交付 + 品質保證",
+      "category": "composite",
+      "tags": ["architect", "架構師", "system-design", "clean-architecture", "hexagonal", "ddd", "domain-driven-design", "event-storming", "bounded-context", "aggregate", "cqrs", "sa", "sd", "tdd", "code-review", "refactor", "重構", "實作規劃", "品質保證"]
+    },
+    {
+      "name": "composite_spring-stack",
+      "source": "./plugins/composite_spring-stack",
+      "description": "複合技能：Spring Boot + Spring Data JPA + 資料庫設計 + PostgreSQL",
+      "category": "composite",
+      "tags": ["spring-boot", "spring", "java", "rest-api", "jpa", "hibernate", "postgresql", "database-design", "flyway", "jsonb", "full-text-search", "cte", "window-function", "資料庫設計", "索引"]
+    },
+    {
+      "name": "composite_frontend",
+      "source": "./plugins/composite_frontend",
+      "description": "複合技能：Vue 3 + Quasar Framework + TypeScript",
+      "category": "composite",
+      "tags": ["vue", "vue3", "composition-api", "pinia", "quasar", "spa", "pwa", "typescript", "generic", "interface", "組件", "前端", "型別", "泛型"]
     }
   ]
 }
