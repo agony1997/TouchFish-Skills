@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "core_ddd-delivery",
+  "description": "DDD 端到端交付：DDD 理論基礎 → Event Storming → SA 領域分析 → SD 戰術設計 → 實作規劃",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/core_ddd-delivery"
+  ]
+}
