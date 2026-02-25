@@ -1,213 +1,40 @@
 {
-  "name": "all-skills",
-  "version": "3.5.0",
+  "name": "touchfish-skills",
+  "version": "4.0.0",
   "owner": {
     "name": "agony1997"
   },
-  "description": "所有技能的 Marketplace：26 個技能插件 + 3 個複合技能（含前綴分類）",
+  "description": "摸魚技能集：5 個工作流型 Claude Code 插件",
   "plugins": [
     {
-      "name": "core_system-design",
-      "source": "./plugins/core_system-design",
-      "description": "系統架構設計：技術選型、架構模式、NFR 規劃、整潔架構/六邊形架構",
-      "category": "core",
-      "tags": ["architect", "架構師", "架構設計", "技術選型", "system architecture", "clean-architecture", "hexagonal"]
-    },
-    {
-      "name": "core_microservices",
-      "source": "./plugins/core_microservices",
-      "description": "微服務架構模式專家，服務拆分、API Gateway、分散式事務",
-      "category": "core",
-      "tags": ["microservices", "service-mesh", "api-gateway", "微服務", "分散式系統"]
-    },
-    {
-      "name": "core_ddd-delivery",
-      "source": "./plugins/core_ddd-delivery",
+      "name": "ddd-core",
+      "source": "./plugins/ddd-core",
       "description": "DDD 端到端交付：DDD 理論基礎 → Event Storming → SA 領域分析 → SD 戰術設計 → 實作規劃",
-      "category": "core",
-      "tags": ["ddd", "domain-driven-design", "event-storming", "sa", "sd", "system-analysis", "system-design", "implementation", "cqrs", "event-sourcing", "端到端", "DDD交付", "事件風暴"]
+      "tags": ["ddd", "domain-driven-design", "event-storming", "sa", "sd", "cqrs", "event-sourcing"]
     },
     {
-      "name": "core_spring-boot",
-      "source": "./plugins/core_spring-boot",
-      "description": "Spring Boot 全方位開發：REST API、自動配置、JPA/資料存取、效能優化",
-      "category": "core",
-      "tags": ["spring-boot", "spring", "java", "rest-api", "jpa", "hibernate", "微服務"]
-    },
-    {
-      "name": "core_quarkus",
-      "source": "./plugins/core_quarkus",
-      "description": "Quarkus 框架開發專家，精通雲原生 Java 應用",
-      "category": "core",
-      "tags": ["quarkus", "cloud-native", "java", "雲原生"]
-    },
-    {
-      "name": "core_testing-review",
-      "source": "./plugins/core_testing-review",
-      "description": "品質保證：TDD 測試驅動、測試策略、程式碼審查、壞味道識別、重構",
-      "category": "core",
-      "tags": ["tdd", "unit-test", "test-driven", "code-review", "refactor", "品質檢查", "測試驅動"]
-    },
-    {
-      "name": "db_schema-design",
-      "source": "./plugins/db_schema-design",
-      "description": "DDD 導向資料庫設計專家，聚合邊界→表結構映射、DDL、Flyway",
-      "category": "database",
-      "tags": ["database-design", "erd", "ddl", "flyway", "schema", "資料庫設計"]
-    },
-    {
-      "name": "db_postgresql",
-      "source": "./plugins/db_postgresql",
-      "description": "PostgreSQL 進階專家，JSON/JSONB、全文搜尋、分區表、窗口函數",
-      "category": "database",
-      "tags": ["postgresql", "postgres", "jsonb", "full-text-search", "全文搜尋"]
-    },
-    {
-      "name": "db_mysql",
-      "source": "./plugins/db_mysql",
-      "description": "MySQL 資料庫專家，索引優化、查詢優化、複製架構",
-      "category": "database",
-      "tags": ["mysql", "database", "sql", "index", "索引優化", "查詢優化"]
-    },
-    {
-      "name": "db_mssql",
-      "source": "./plugins/db_mssql",
-      "description": "Microsoft SQL Server 資料庫專家，精通 T-SQL 與效能調校",
-      "category": "database",
-      "tags": ["mssql", "sql-server", "t-sql", "資料庫"]
-    },
-    {
-      "name": "db_redis",
-      "source": "./plugins/db_redis",
-      "description": "Redis 快取與資料結構專家，快取策略、分散式鎖、Cluster",
-      "category": "database",
-      "tags": ["redis", "cache", "pub-sub", "distributed-lock", "快取"]
-    },
-    {
-      "name": "frontend_vue",
-      "source": "./plugins/frontend_vue",
-      "description": "Vue 2/3 框架開發專家，Composition API、Vue Router、Pinia",
-      "category": "frontend",
-      "tags": ["vue", "vue3", "composition-api", "pinia", "vue-router", "組件開發"]
-    },
-    {
-      "name": "frontend_quasar",
-      "source": "./plugins/frontend_quasar",
-      "description": "Quasar Framework 開發專家，精通 Vue 3 多平台應用",
-      "category": "frontend",
-      "tags": ["quasar", "vue3", "spa", "pwa", "前端框架"]
-    },
-    {
-      "name": "frontend_typescript",
-      "source": "./plugins/frontend_typescript",
-      "description": "TypeScript 型別系統專家，泛型、進階型別、工具型別",
-      "category": "frontend",
-      "tags": ["typescript", "type-system", "generic", "interface", "型別"]
-    },
-    {
-      "name": "devops_docker",
-      "source": "./plugins/devops_docker",
-      "description": "Docker 容器化專家，Dockerfile、映像優化、Docker Compose",
-      "category": "devops",
-      "tags": ["docker", "container", "dockerfile", "docker-compose", "容器化"]
-    },
-    {
-      "name": "devops_cicd",
-      "source": "./plugins/devops_cicd",
-      "description": "CI/CD 持續整合與部署專家，專精 GitHub Actions、GitLab CI、Jenkins",
-      "category": "devops",
-      "tags": ["cicd", "github-actions", "gitlab-ci", "jenkins", "pipeline", "持續整合"]
-    },
-    {
-      "name": "devops_git",
-      "source": "./plugins/devops_git",
-      "description": "Git 全方位專家：Commit、PR、分支策略、版本發布與 Changelog",
-      "category": "devops",
+      "name": "git-nanny",
+      "source": "./plugins/git-nanny",
+      "description": "Git 管家：Commit、PR、分支策略、版本發布與 Changelog",
       "tags": ["git", "commit", "pull-request", "branch", "release", "conventional-commits"]
     },
     {
-      "name": "core_pg-standards",
-      "source": "./plugins/core_pg-standards",
-      "description": "PG 紀律遵規專家，遵守規格書與程式碼風格",
-      "category": "core",
-      "tags": ["compliance", "coding-standards", "遵規", "紀律", "programmer"]
+      "name": "reviewer",
+      "source": "./plugins/reviewer",
+      "description": "專案規範審查員：讀取專案內規範文件，執行程式碼合規審查",
+      "tags": ["review", "standards", "compliance", "audit", "code-review"]
     },
     {
-      "name": "tools_api-docs",
-      "source": "./plugins/tools_api-docs",
-      "description": "API 文檔生成工具，使用 OpenAPI 3.0/Swagger 規格",
-      "category": "tools",
-      "tags": ["api", "openapi", "swagger", "documentation", "API文檔"]
+      "name": "spec-to-md",
+      "source": "./plugins/spec-to-md",
+      "description": "規格文件 → 結構化 AI Coding 實作文件",
+      "tags": ["spec", "documentation", "implementation", "ai-coding"]
     },
     {
-      "name": "tools_business-report",
-      "source": "./plugins/tools_business-report",
-      "description": "商業報告生成工具，支援週報、月報、季報與主管摘要",
-      "category": "tools",
-      "tags": ["report", "週報", "月報", "季報", "商業報告", "KPI"]
-    },
-    {
-      "name": "tools_chart-generator",
-      "source": "./plugins/tools_chart-generator",
-      "description": "圖表生成工具，使用 Mermaid 和 PlantUML",
-      "category": "tools",
-      "tags": ["chart", "mermaid", "plantuml", "uml", "diagram", "圖表"]
-    },
-    {
-      "name": "tools_excel-converter",
-      "source": "./plugins/tools_excel-converter",
-      "description": "Excel/CSV/JSON 格式互轉與資料處理工具",
-      "category": "tools",
-      "tags": ["excel", "csv", "json", "data-conversion", "格式互轉"]
-    },
-    {
-      "name": "tools_markdown-converter",
-      "source": "./plugins/tools_markdown-converter",
-      "description": "Markdown 格式互轉工具，支援 HTML、PDF、DOCX",
-      "category": "tools",
-      "tags": ["markdown", "html", "pdf", "docx", "format-conversion", "文檔轉換"]
-    },
-    {
-      "name": "tools_pdf-processor",
-      "source": "./plugins/tools_pdf-processor",
-      "description": "PDF 處理工具，合併、分割、提取、建立、浮水印",
-      "category": "tools",
-      "tags": ["pdf", "merge", "split", "extract", "watermark", "PDF處理"]
-    },
-    {
-      "name": "tools_tech-presentation",
-      "source": "./plugins/tools_tech-presentation",
-      "description": "技術簡報生成工具，使用 python-pptx 建立 PowerPoint",
-      "category": "tools",
-      "tags": ["powerpoint", "pptx", "presentation", "slides", "技術簡報"]
-    },
-    {
-      "name": "tools_word-processor",
-      "source": "./plugins/tools_word-processor",
-      "description": "Word 文檔建立、編輯與轉換工具",
-      "category": "tools",
-      "tags": ["word", "docx", "document", "formatting", "Word文檔"]
-    },
-    {
-      "name": "composite_architect",
-      "source": "./plugins/composite_architect",
-      "description": "複合技能：系統設計 + DDD 端到端交付 + 品質保證",
-      "category": "composite",
-      "tags": ["architect", "架構師", "system-design", "clean-architecture", "hexagonal", "ddd", "domain-driven-design", "event-storming", "bounded-context", "aggregate", "cqrs", "sa", "sd", "tdd", "code-review", "refactor", "重構", "實作規劃", "品質保證"]
-    },
-    {
-      "name": "composite_spring-stack",
-      "source": "./plugins/composite_spring-stack",
-      "description": "複合技能：Spring Boot + Spring Data JPA + 資料庫設計 + PostgreSQL",
-      "category": "composite",
-      "tags": ["spring-boot", "spring", "java", "rest-api", "jpa", "hibernate", "postgresql", "database-design", "flyway", "jsonb", "full-text-search", "cte", "window-function", "資料庫設計", "索引"]
-    },
-    {
-      "name": "composite_frontend",
-      "source": "./plugins/composite_frontend",
-      "description": "複合技能：Vue 3 + Quasar Framework + TypeScript",
-      "category": "composite",
-      "tags": ["vue", "vue3", "composition-api", "pinia", "quasar", "spa", "pwa", "typescript", "generic", "interface", "組件", "前端", "型別", "泛型"]
+      "name": "md-to-code",
+      "source": "./plugins/md-to-code",
+      "description": "實作文件 → 程式碼（並行 Agent Teams）",
+      "tags": ["implementation", "code-generation", "agent-teams"]
     }
   ]
 }
