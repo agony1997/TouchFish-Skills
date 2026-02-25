@@ -18,8 +18,11 @@
   "enabledPlugins": {
     "touchfish-skills": true,
     "ddd-core@touchfish-skills": true,
+    "git-nanny@touchfish-skills": true,
     "reviewer@touchfish-skills": true,
     "spec-to-md@touchfish-skills": true,
-    "md-to-code@touchfish-skills": true
+    "md-to-code@touchfish-skills": true,
+    "explorer@touchfish-skills": true,
+    "dev-team@touchfish-skills": true
   }
 }

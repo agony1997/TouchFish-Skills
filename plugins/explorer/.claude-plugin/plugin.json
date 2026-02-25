@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "explorer",
+  "description": "專案探索者：Opus Leader 指揮 sub-agents 並行探索，交叉比對後產出專案地圖",
+  "author": {
+    "name": "Custom Skills"
+  },
+  "skills": [
+    "./skills/explorer"
+  ]
+}

@@ -1,10 +1,10 @@
 {
   "name": "touchfish-skills",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "owner": {
     "name": "agony1997"
   },
-  "description": "摸魚技能集：5 個工作流型 Claude Code 插件",
+  "description": "摸魚技能集：7 個工作流型 Claude Code 插件",
   "plugins": [
     {
       "name": "ddd-core",
@@ -35,6 +35,18 @@
       "source": "./plugins/md-to-code",
       "description": "實作文件 → 程式碼（並行 Agent Teams）",
       "tags": ["implementation", "code-generation", "agent-teams"]
+    },
+    {
+      "name": "explorer",
+      "source": "./plugins/explorer",
+      "description": "專案探索者：Opus Leader 指揮 sub-agents 並行探索，交叉比對後產出專案地圖",
+      "tags": ["explore", "project-map", "codebase", "architecture", "agent-teams"]
+    },
+    {
+      "name": "dev-team",
+      "source": "./plugins/dev-team",
+      "description": "開發團隊：多角色流水線協作（PM/開發者/QA），動態規模，混合 teammates + sub-agents",
+      "tags": ["team", "agent-teams", "pipeline", "pm", "qa", "development"]
     }
   ]
 }
