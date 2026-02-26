@@ -13,7 +13,7 @@ Example: 1.2.3-beta.1+20240127
 | New feature (backward compatible) | MINOR | 1.2.0 -> 1.3.0 |
 | Bug fix / security patch | PATCH | 1.2.3 -> 1.2.4 |
 | Docs only / refactor | PATCH | 1.2.3 -> 1.2.4 |
-| Performance improvement | MINOR | 1.2.0 -> 1.3.0 |
+| Performance improvement | PATCH | 1.2.3 -> 1.2.4 |
 
 **Pre-release versions:**
 ```
@@ -68,7 +68,11 @@ Categories: **Added**, **Changed**, **Deprecated**, **Removed**, **Fixed**, **Se
 ```bash
 git checkout main && git pull origin main
 git status
-npm test && npm run build
+# Run project's test and build commands (confirm with user if unknown):
+#   npm/pnpm/yarn: npm test && npm run build
+#   Maven/Gradle:  ./mvnw verify  or  ./gradlew build
+#   Cargo:         cargo test && cargo build --release
+#   Go:            go test ./... && go build ./...
 ```
 
 ### Step 2: Determine Version Bump
@@ -81,21 +85,27 @@ git log $(git describe --tags --abbrev=0)..HEAD --oneline
 ### Step 3: Update Version and Changelog
 
 ```bash
-npm version 1.2.0 --no-git-tag-version
-# Update CHANGELOG.md (manual or via conventional-changelog)
-conventional-changelog -p angular -i CHANGELOG.md -s
+# Update version in project's version file (confirm with user if unknown):
+#   Node.js:     npm version 1.2.0 --no-git-tag-version (updates package.json)
+#   Maven:       mvn versions:set -DnewVersion=1.2.0
+#   Gradle:      update version in build.gradle / gradle.properties
+#   Cargo:       update version in Cargo.toml
+#   Go:          version usually derived from git tags (no file update needed)
+#   Other:       update relevant version file(s)
+
+# Update CHANGELOG.md (manual or via changelog generator)
 ```
 
 ### Step 4: Commit, Tag, Push
 
 ```bash
-git add package.json CHANGELOG.md
+git add <version-file(s)> CHANGELOG.md    # e.g., package.json, build.gradle, Cargo.toml
 git commit -m "$(cat <<'EOF'
 chore(release): bump version to 1.2.0
 
 Update version and generate changelog
 
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
 
@@ -109,7 +119,7 @@ Release version 1.2.0
 EOF
 )"
 
-git push origin main --follow-tags
+git push origin main --follow-tags    # Confirm with user before pushing
 ```
 
 ### Step 5: Create GitHub Release
@@ -140,15 +150,18 @@ EOF
 
 ## Hotfix Release
 
+> **Note:** This example uses Git Flow conventions (hotfix branch from main, merge back to develop). Adapt to your project's branching strategy. For Trunk-Based or GitHub Flow, create a regular fix branch and follow the normal PR process.
+
 ```bash
 git checkout main && git checkout -b hotfix/1.2.1
 # Fix the critical issue
 git commit -m "fix(security): patch critical vulnerability"
-npm version 1.2.1 --no-git-tag-version
-git add package.json CHANGELOG.md
+# Update version in project's version file
+git add <version-file(s)> CHANGELOG.md
 git commit -m "chore(release): hotfix version 1.2.1"
 git checkout main && git merge --no-ff hotfix/1.2.1
 git tag -a v1.2.1 -m "Hotfix v1.2.1 - Security patch"
+# Confirm with user before pushing
 git push origin main --tags
 git checkout develop && git merge main && git push origin develop
 git branch -d hotfix/1.2.1
@@ -176,29 +189,16 @@ git tag -d v1.2.0                          # Local
 git push origin --delete v1.2.0            # Remote
 ```
 
-## Release Automation (semantic-release)
+## Release Automation
 
-```bash
-npm install --save-dev semantic-release \
-    @semantic-release/changelog \
-    @semantic-release/git \
-    @semantic-release/github
-```
+Common tools for automating releases from Conventional Commits:
 
-`.releaserc.json`:
-```json
-{
-  "branches": ["main"],
-  "plugins": [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
-    "@semantic-release/changelog",
-    "@semantic-release/npm",
-    "@semantic-release/github",
-    ["@semantic-release/git", {
-      "assets": ["CHANGELOG.md", "package.json"],
-      "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-    }]
-  ]
-}
-```
+| Ecosystem | Tool | Notes |
+|-----------|------|-------|
+| Node.js | [semantic-release](https://github.com/semantic-release/semantic-release) | Full automation: version, changelog, publish, git tag |
+| Any | [release-please](https://github.com/googleapis/release-please) | Google's tool, creates release PRs, language-agnostic |
+| Any | [standard-version](https://github.com/conventional-changelog/standard-version) | Simpler: bump version, update changelog, tag |
+| Rust | `cargo-release` | Cargo-native release workflow |
+| Go | `goreleaser` | Build, package, and publish Go binaries |
+
+> Consult the project's existing CI/CD setup before introducing a new release tool.

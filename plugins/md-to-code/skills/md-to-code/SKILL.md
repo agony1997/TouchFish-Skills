@@ -8,6 +8,8 @@ description: >
   按文件 coding、依文件開發、實作程式碼、開始實作、to code、toCode、implement, implementation, 寫程式, coding, 依規格實作, 按規格開發, 從文件產生程式碼, generate code, code generation, 開始開發。
 ---
 
+<!-- version: 1.2.0 -->
+
 # MD-to-Code
 
 You are the implementation lead. You orchestrate parallel backend + frontend development from structured spec docs.
@@ -25,7 +27,9 @@ Gates = mandatory human checkpoints (AskUserQuestion)
 
 ## Step 1: Read Docs via Parallel Subagents
 
-Read `prompt.md` to get doc paths and project standards paths. Launch **3 parallel Task agents** (model: opus) in a single message. Do NOT set `run_in_background` — wait for all results.
+Locate `prompt.md`: use user-provided path first. If not provided, Glob `**/prompt.md` in likely directories (Docs/, docs/, specs/). If multiple results, AskUserQuestion to clarify. Read it to get doc paths and project standards paths.
+
+Launch **3 parallel Task agents** (model: opus, except Agent B which may use sonnet) in a single message. Do NOT set `run_in_background` — wait for all results.
 
 **Agent A — Tech Spec:**
 - Read `01_技術規格.md`
@@ -41,7 +45,10 @@ Read `prompt.md` to get doc paths and project standards paths. Launch **3 parall
 - Read `02_後端實作.md` and `03_前端實作.md`
 - Produce: backend step list, frontend step list, file inventory
 
-After all agents return, consolidate results.
+After all agents return, consolidate results. **Conflict resolution** if Agent B and Agent C overlap:
+- Naming/style conventions → Agent B (project reality) takes precedence
+- Implementation steps and order → Agent C (spec docs) takes precedence
+- Reusable components → merge both lists, deduplicate
 
 ## Step 1.5: Checkpoint — Confirm Understanding (mandatory gate)
 
@@ -56,7 +63,9 @@ Options: Correct, proceed | Need additions | Need direction change
 
 ## Step 2: Generate Implementation Plan
 
-Use `superpowers:writing-plans` methodology. Produce step checklist:
+> **Optional integration** — if superpowers plugin is installed, use `superpowers:writing-plans` methodology. Otherwise, produce a structured plan independently.
+
+Produce step checklist:
 
 ```
 Implementation Plan: <feature name>
@@ -76,16 +85,27 @@ Submit to user for confirmation. User may adjust order or scope.
 
 > **Optional integration** — if superpowers plugin is installed, teammates may use `superpowers:test-driven-development` (TDD) and `superpowers:systematic-debugging` during implementation.
 
-### 3a. Create team and task list
+### 3a. Scope detection and team creation
 
-TeamCreate `"impl-<feature-name>"`. Convert Step 2 plan into TaskCreate entries. Tag backend vs frontend.
+**Scope detection**: Check prompt.md navigation section for available docs:
+- Both 02 and 03 present → spawn both backend-dev and frontend-dev
+- Only 02 present (no 03) → spawn backend-dev only, skip frontend steps
+- Only 03 present (no 02) → spawn frontend-dev only, skip backend steps
+- User explicitly requests partial scope → honor the request
+
+TeamCreate `"impl-<feature-name>"` (lowercase, no spaces, use hyphens). Convert Step 2 plan into TaskCreate entries. Tag backend vs frontend.
 
 ### 3b. Spawn teammates (on-demand prompt loading)
 
 **Before spawning each teammate:**
 1. Glob `**/md-to-code/**/prompts/backend-dev.md` or `**/md-to-code/**/prompts/frontend-dev.md`
 2. Read the matched file
-3. Fill `{variables}` with consolidated context from Step 1
+3. Fill `{variables}` with consolidated context from Step 1 using this mapping:
+   - `{team_name}` → TeamCreate team name from 3a
+   - `{tech_spec_content}` → Agent A summary (API endpoints, DB structure, business rules). For large specs, use summary + file path.
+   - `{backend_impl_content}` / `{frontend_impl_content}` → Agent C output (step list, file inventory). For large docs, use summary + file path.
+   - `{project_standards_summary}` → Agent B output (naming, architecture, code style)
+   - `{reusable_components_list}` → Agent B output (reusable component paths and descriptions)
 4. Use filled template as the Task tool prompt (with `team_name` and `name` parameters)
 
 **backend-dev** — Task tool with `name: "backend-dev"`:
@@ -118,10 +138,10 @@ If adjustments needed: SendMessage to the relevant teammate with change requests
 
 ## Step 4: Post-Implementation Verification
 
-Use `superpowers:verification-before-completion` principles + `superpowers:requesting-code-review`:
+> **Optional integration** — if superpowers plugin is installed, use `superpowers:verification-before-completion` and `superpowers:requesting-code-review`. Otherwise, apply thorough self-verification.
 
 1. **File completeness**: compare against implementation plan — all files produced?
-2. **Code review** (via code-reviewer agent): spec compliance, naming/style consistency, flag issues
+2. **Code review**: use `reviewer` skill if available (invoke `/reviewer` on changed files). Otherwise, self-review for spec compliance, naming/style consistency, and flag issues.
 3. **Prompt user**: run build (backend + frontend), run functional tests, note manual adjustments
 
 ## Step 5: Close Team + Generate Completion Report
@@ -140,5 +160,7 @@ Use `superpowers:verification-before-completion` principles + `superpowers:reque
 - Spec vs project standards conflict → follow project standards, notify user
 - Step 1 (read): Subagents — efficient, low-cost, no inter-agent communication needed
 - Step 3 (impl): Agent Teams — cross-layer communication, human intervention, shared task list
-- All teammate prompts must embed full context (tech spec, impl doc, standards summary, reusable components)
-- All Task agents / teammates: model opus
+- **Error handling**: If a subagent fails → retry once. If teammate is stuck → TL takes over the task directly. If build/compile fails → present error to user with suggested fix. If a teammate becomes unresponsive → reassign tasks to the other teammate or handle in main flow.
+- **Expected input format**: prompt.md should contain a "文件導航" / "Document Navigation" section listing paths to 01/02/03 docs, and a "專案規範參考" / "Project Standards" section with standards file paths. If format differs (e.g., non-spec-to-md origin), read prompt.md's actual structure and adapt — extract doc paths from whatever navigation format is present.
+- Context size management: for documents over ~200 lines, embed a summary + file path in spawn prompts and let teammates Read the full file on demand. Do NOT embed full content of large documents.
+- All Task agents / teammates: model opus (Agent B may use sonnet for cost efficiency)

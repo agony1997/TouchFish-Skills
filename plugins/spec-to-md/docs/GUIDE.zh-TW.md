@@ -1,6 +1,6 @@
 # spec-to-md 技能使用指南
 
-> 版本：1.1.0 | 最後更新：2026-02-26
+> 版本：1.2.0 | 最後更新：2026-02-26
 
 ## 這是什麼？
 
@@ -111,9 +111,9 @@ spec        spec        <-- teammates（各自獨立 context）
   Team lead 彙整結果
 ```
 
-- **backend-spec**：產出 02_後端實作.md（檔案清單、Processor 實作指示、Route XML、Entity 方法）
-- **frontend-spec**：產出 03_前端實作.md（檔案清單、Types、Store、頁面結構、子元件、路由、共用組件）
-- 兩者會**互相校對** API 端點、參數格式、回應結構的一致性
+- **backend-spec**：產出 02_後端實作.md（檔案清單、Handler 實作指示、路由配置、Entity 方法）
+- **frontend-spec**：產出 03_前端實作.md（檔案清單、Types、State Management、頁面結構、子元件、路由、共用組件）
+- 兩者完成後由 **Team Lead 協調校對** API 端點、參數格式、回應結構的一致性（避免競態條件）
 
 完成後 Team Lead 彙整並提交你確認。
 
@@ -167,7 +167,7 @@ spec        spec        <-- teammates（各自獨立 context）
 
 ```
 plugins/spec-to-md/
-├── .claude-plugin/plugin.json          ← 插件元資料 (v1.1.0)
+├── .claude-plugin/plugin.json          ← 插件元資料 (v1.2.0)
 ├── skills/spec-to-md/
 │   ├── SKILL.md                        ← AI 核心指令（英文，始終載入）
 │   ├── prompts/                        ← Spawn 模板（按需載入）
@@ -187,7 +187,7 @@ plugins/spec-to-md/
 A: 建議提供。有了 DEVELOP.md、NAMING_CONVENTIONS.md 等，產出的文件才能貼合專案風格。沒有的話技能會用通用慣例。
 
 **Q: 可以只產出後端或前端嗎？**
-A: 目前設計是一次產出全套（4 份文件）。如果只需要其中一部分，可以在步驟 3 確認時告知。
+A: 建議一次產出全套（4 份文件）以確保跨層一致性。如果只需要其中一部分，可以在步驟 3 確認時說明，但請注意跨層校對將無法進行。
 
 **Q: Agent Teams 的 backend-spec 和 frontend-spec 會做什麼？**
 A: 它們各自獨立撰寫實作文件，完成後互相校對 API 一致性。你也可以用 Shift+Down 切入任一 teammate 修正方向。
@@ -196,4 +196,4 @@ A: 它們各自獨立撰寫實作文件，完成後互相校對 API 一致性。
 A: 遵循 `references/template-structure.md` 定義的結構。該文件定義了每份文件的章節和內容要求。
 
 **Q: 可以搭配 superpowers 插件嗎？**
-A: 可以。步驟 3 使用 brainstorming 探索需求，步驟 4a 使用 writing-plans 規劃大綱，步驟 5 使用 verification-before-completion 做最終驗證。
+A: 可以但非必要。如果安裝了 superpowers 插件，步驟 3 會使用 brainstorming 探索需求，步驟 4a 使用 writing-plans 規劃大綱，步驟 5 使用 verification-before-completion 做最終驗證。沒有安裝也能正常運作。

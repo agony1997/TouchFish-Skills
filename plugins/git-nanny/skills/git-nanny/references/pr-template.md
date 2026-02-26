@@ -50,7 +50,7 @@ Closes #123
 ### Step 4: Create PR via GitHub CLI
 
 ```bash
-# Push branch if needed
+# Push branch if needed — confirm with user before pushing
 git push -u origin feature/leave-request
 
 # Create PR
@@ -92,20 +92,15 @@ gh pr view --web
 
 > **Optional integration** — If superpowers plugin is installed, use `superpowers:receiving-code-review` when handling review feedback to process it carefully.
 
-## Code Review Checklist
+## Code Review (Quick Check)
 
-**Critical (must fix):** Security vulnerabilities, data corruption risk, logic errors
-**Important (should fix):** Performance issues, improper error handling, missing tests
-**Minor (suggested):** Code style, naming, refactoring suggestions
+Basic PR sanity check before requesting review:
+- No sensitive files committed (.env, credentials, keys)
+- Tests pass and cover new code
+- No obvious security issues
+- Commit messages follow Conventional Commits
 
-Key review areas:
-- Architecture and separation of concerns
-- Code quality and readability
-- Functional correctness and edge cases
-- Test coverage (>80%)
-- Performance (N+1 queries, caching)
-- Security (SQL injection, XSS, authentication)
-- Documentation
+> **For in-depth code review**, use the **reviewer** skill which provides standards-based review, severity grading, and auto-fix workflow.
 
 ## Submitting Reviews
 
@@ -130,5 +125,5 @@ git checkout feature/leave-request
 git rebase main  # or merge (per project preference)
 # Resolve conflicts...
 git add <resolved-files> && git rebase --continue
-git push --force-with-lease origin feature/leave-request
+git push --force-with-lease origin feature/leave-request  # Confirm with user first — rewrites remote history
 ```

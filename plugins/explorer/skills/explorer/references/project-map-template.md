@@ -21,12 +21,12 @@ Use this template when producing the final PROJECT_MAP.md output.
 
 ## Backend Structure
 - Entry point: ...
-- Layering: Controller -> Service -> Repository
+- Layering: <describe actual layering pattern, e.g., Controller -> Service -> Repository, Handler -> UseCase -> Gateway, etc.>
 - Key config files: ...
 
 ## Frontend Structure
 - Entry point: ...
-- Component structure: ...
+- Component structure: <describe actual component organization>
 - State management: ...
 - Routing: ...
 
@@ -43,7 +43,7 @@ Use this template when producing the final PROJECT_MAP.md output.
 | Component | Path | Type | Description |
 |-----------|------|------|-------------|
 
-(e.g., BaseEntity, ApiClient, DateUtils, CommonButton, ResponseWrapper, etc.)
+(e.g., base classes, API clients, utility functions, shared UI components, response wrappers, etc.)
 
 ## Project Standards Summary
 - **Standards sources:** (list file paths found)

@@ -29,26 +29,20 @@ Claude Code 技能插件 Marketplace，共 7 個工作流型插件。
 ## 安裝
 
 ```bash
-# 1. Clone 到本機
-git clone https://github.com/agony1997/TouchFish-Skills.git
-
-# 2. 在 Claude Code 中安裝（整包安裝，按需啟用個別技能）
-claude mcp add-plugin ./path/to/TouchFish-Skills
+# 直接在 Claude Code 中安裝（支援整個 Repo 作為 Marketplace）
+claude mcp add-plugin https://github.com/agony1997/TouchFish-Skills
 ```
-
-> **建議**：將 `git-nanny` 放在 User scope（全域可用），其餘按專案需求啟用。
-
 ## 插件清單
 
 | 插件 | 版本 | 類型 | 說明 | 人類指南 |
 |------|------|------|------|---------|
-| `ddd-core` | 1.1.0 | 方法論 | DDD 端到端交付：Event Storming → SA → SD → 實作規劃 | [指南](plugins/ddd-core/docs/GUIDE.zh-TW.md) |
-| `git-nanny` | 1.1.0 | 操作流程 | Git Commit、PR、分支策略、版本發布與 Changelog | [指南](plugins/git-nanny/docs/GUIDE.zh-TW.md) |
+| `ddd-core` | 1.1.0 | 方法論 | DDD 端到端交付：DDD 理論基礎 → Event Storming → SA → SD → 實作規劃 | [指南](plugins/ddd-core/docs/GUIDE.zh-TW.md) |
+| `git-nanny` | 1.2.0 | 操作流程 | Git 全方位專家：Commit 訊息、PR 建立與審查、分支策略、版本發布與 Changelog | [指南](plugins/git-nanny/docs/GUIDE.zh-TW.md) |
 | `reviewer` | 1.1.0 | 審查流程 | 專案規範審查員：讀取專案內規範文件，執行程式碼合規審查 | [指南](plugins/reviewer/docs/GUIDE.zh-TW.md) |
-| `spec-to-md` | 1.1.0 | 轉換流程 | 規格文件 → 結構化 AI Coding 實作文件 | [指南](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
-| `md-to-code` | 1.1.0 | 實作流程 | 實作文件 → 程式碼（並行 Agent Teams） | [指南](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
-| `explorer` | 1.1.0 | 探索工具 | 專案探索者：Opus Leader + sub-agents 並行探索，產出專案地圖 | [指南](plugins/explorer/docs/GUIDE.zh-TW.md) |
-| `dev-team` | 2.1.0 | 團隊協作 | 開發團隊：任務池架構（TL + challenger + workers），自取任務、Agent Metrics | [指南](plugins/dev-team/docs/GUIDE.zh-TW.md) |
+| `spec-to-md` | 1.2.0 | 轉換流程 | 規格文件轉 AI Coding 實作文件：產出技術規格、前後端實作指示 | [指南](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
+| `md-to-code` | 1.2.0 | 實作流程 | 根據實作文件實作程式碼：並行 Agent Teams 開發後端與前端 | [指南](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
+| `explorer` | 1.2.0 | 探索工具 | 專案探索者：Opus Leader 指揮 sub-agents 並行探索，交叉比對產出專案地圖 | [指南](plugins/explorer/docs/GUIDE.zh-TW.md) |
+| `dev-team` | 2.2.0 | 團隊協作 | 開發團隊：任務池架構（TL + challenger + workers），自取任務、事件驅動 QA | [指南](plugins/dev-team/docs/GUIDE.zh-TW.md) |
 
 ## 架構概覽
 

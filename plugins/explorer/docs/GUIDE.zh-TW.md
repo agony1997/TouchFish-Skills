@@ -1,6 +1,6 @@
 # explorer 技能使用指南
 
-> 版本：1.1.0 | 最後更新：2026-02-26
+> 版本：1.2.0 | 最後更新：2026-02-26
 
 ## 這是什麼？
 
@@ -36,10 +36,14 @@ Leader 會先讀取根目錄結構，辨識 build 檔案和設定檔，然後根
 
 | 條件 | 類型 | sub-agent 分工 |
 |------|------|----------------|
-| 有 `packages/`、`modules/` 或多個 build 檔 + 共用 infra | 混合型 | infra-explorer + 各模組 explorer |
-| 有 `packages/`、`modules/` 或多個 build 檔 | 多模組 / monorepo | 各模組 explorer |
-| 有明確前後端分離 | 單體 | backend-explorer + frontend-explorer |
-| 其他 | 單體（簡易） | 單一 explorer |
+| 多個服務目錄 + 獨立 build 檔 + docker-compose/k8s | 微服務 | infra-explorer + 各服務 explorer |
+| 有 `packages/`、`modules/` 或 workspace 設定 + 共用 infra | 混合型 monorepo | infra-explorer + 各模組 explorer |
+| 有 `packages/`、`modules/` 或 workspace 設定 | monorepo | 各模組 explorer |
+| 單一 build 檔 + lib/ 結構 + 無應用程式進入點 | 函式庫/SDK | 單一 explorer |
+| 有明確前後端分離 | 全端應用 | backend-explorer + frontend-explorer |
+| 其他 | 單體 | 單一 explorer |
+
+> sub-agent 上限為 10 個。超過時會自動分組，並向使用者確認分組方式。
 
 判定後會向你確認類型和分工計畫，你可以調整探索範圍或排除特定目錄。
 
@@ -76,10 +80,11 @@ Leader（Opus）會逐項檢查所有報告：
   - 是否需要建立基本規範？
 - 你的回答會影響 PROJECT_MAP.md 中規範章節的內容
 
-**審視迴圈：**
-- 有明確疑問 → 再派 sub-agent 深入探索
-- 有不確定 → 詢問你確認
-- 全部通過後才進入 Phase 3
+**審視迴圈（最多 3 輪）：**
+- 事實性矛盾（如版本號不一致）→ 再派 sub-agent 深入探索
+- 上下文不確定（如模組用途不明）→ 詢問你確認
+- 真實不一致（專案本身存在的問題）→ 記錄為「已知問題」
+- 3 輪後仍未解決的項目自動列為「已知問題」寫入 PROJECT_MAP.md
 
 ### Phase 3: 彙整產出
 
@@ -90,19 +95,19 @@ Leader（Opus）會逐項檢查所有報告：
 ## 專案類型偵測邏輯
 
 ```
-if 根目錄有 packages/ 或 modules/ 或多個 build 檔:
-    type = "多模組" 或 "monorepo"
-    if 有共用 infra/（docker, k8s, ci）:
-        type = "混合型"
-        agents = [infra-explorer] + [module-N-explorer per module]
-    else:
-        agents = [module-N-explorer per module]
-elif 有明確前後端分離（src/main + src/webapp, 或 server/ + client/）:
-    type = "單體"
-    agents = [backend-explorer, frontend-explorer]
-else:
-    type = "單體（簡易）"
-    agents = [single-explorer]
+Primary signals（依序檢查，第一個命中即採用）：
+1. 微服務：多個服務目錄 + 獨立 build 檔 + docker-compose/k8s
+2. Monorepo：packages/ 或 modules/ 或 workspace 設定
+   → 有共用 infra 則加 infra-explorer
+3. 函式庫/SDK：單一 build 檔 + lib/ + 無應用程式進入點
+4. 全端：明確前後端分離（server/ + client/）
+5. 單體：其他情況
+
+Secondary signals（補充偵測）：
+- data/、notebooks/ → 資料/ML 專案標記
+- 多個 .env 檔案 → 多環境設定
+
+Sub-agent 上限 10 個，超過則自動分組。
 ```
 
 ## 使用範例
@@ -159,7 +164,7 @@ plugins/explorer/
 ## 常見問題
 
 **Q: 探索需要多久？**
-A: 取決於專案大小。單體小專案約 1-2 分鐘，大型 monorepo 可能 3-5 分鐘。
+A: 取決於專案大小和複雜度。小型專案可能幾分鐘內完成，大型 monorepo 或 microservices 專案會需要更長時間。
 
 **Q: 可以只探索部分目錄嗎？**
 A: 可以。在 Phase 0 確認時，告知 Leader 你想要的探索範圍或排除範圍。

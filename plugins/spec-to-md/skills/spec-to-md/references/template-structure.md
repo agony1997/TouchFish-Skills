@@ -11,8 +11,8 @@
 
 ## 實作範圍
 
-- 後端：<N> 個 Processor（<列出名稱>）
-- 前端：Types + Store + <N> 個 Vue 元件（<列出名稱>）
+- 後端：<N> 個 Handler/Controller/Processor（<列出名稱>）
+- 前端：Types + State Management + <N> 個元件（<列出名稱>）
 
 ## 文件導航
 
@@ -99,51 +99,45 @@
 
 | 檔案路徑 | 說明 | 操作 |
 |----------|------|------|
-| `backend/.../XxxProcessor.java` | 說明 | 新增 |
+| `<path/to/HandlerOrController>` | 說明 | 新增/修改 |
 
-## 步驟 1：<ProcessorName>
+## 步驟 1：<HandlerName> (adapt naming to project convention)
 
-建立 `backend/.../XxxProcessor.java`，繼承 `ApiRouteProcessor`。
+建立 `<path/to/Handler>`，繼承/實作 `<project base class or interface>`.
 
-### getTemplateParams()
+### 設定/元資料 (adapt to project pattern)
 回傳：
-- routeId: "xxx"
-- apiDescription: "說明"
-- requiredFields: "field1,field2"
+- <endpoint identifier>
+- <description>
+- <required fields / validation config>
 
-### getProcessorType()
-回傳：`LogType.BIZ_XXX`
+### 核心處理方法
 
-### process()
-加上以下註解：
-- `@ActivateRequestContext`
-- `@RequirePermission("XXX:XXX_QUERY")` （如有權限要求）
-- `@AuditLog(operation = ..., entity = "...", description = "...")`
-- `@Transactional` （如有寫入操作）
+加上專案慣用的 annotation/decorator（權限、交易、日誌等，依專案規範）。
 
-### processBusinessLogic()
+### 業務邏輯
 
-1. 驗證必填欄位：`validateRequiredFields(payload, "field1,field2")`
-2. 提取參數：
-   - `String x = JsonUtil.getStringFromMap(payload, "x")`
-   - `Integer y = JsonUtil.getIntegerFromMap(payload, "y", "Y欄位")`
-3. 查詢資料：`Entity.findByXxx(x, y)`
-4. 組合回應：`buildStandardResponse(traceId, data, "xxx")`
+1. 驗證必填欄位
+2. 提取並轉換參數
+3. 查詢/操作資料
+4. 組合回應
+
+（每步列出具體欄位名稱、呼叫的方法、使用的 Entity/Model）
 
 ### 驗證邏輯
-（描述業務規則驗證的 private method）
+（描述業務規則驗證的 private method/function）
 
 ---
 
-## 步驟 2：<下一個 Processor>
+## 步驟 2：<下一個 Handler>
 ...
 
-## 步驟 N：Route 配置
+## 步驟 N：路由/端點配置
 
-在 `backend/src/main/resources/routes/` 新增或修改 XML：
-（Route XML 內容）
+在專案路由配置位置新增或修改端點設定。
+（具體配置內容）
 
-## Entity 新增方法（如需要）
+## Entity/Model 新增方法（如需要）
 
 ### <EntityName>
 - `methodName(params)`: 邏輯描述
@@ -158,14 +152,14 @@
 
 | 路徑 | 說明 | 操作 |
 |------|------|------|
-| `frontend/src/types/...` | 類型定義 | 新增 |
+| `<path/to/types>` | 類型定義 | 新增 |
 
 ## 步驟 1：類型定義
 
-建立 `frontend/src/types/<module>/<id>Types.ts`。
+建立 `<path per project convention>`.
 
-### Interface
-（完整 TypeScript interface 定義）
+### Interface / Type
+（完整類型定義，語言依專案技術棧）
 
 ### 常數
 （完整常數定義）
@@ -175,27 +169,27 @@
 
 ---
 
-## 步驟 2：Pinia Store
+## 步驟 2：State Management (Store / State / Context)
 
-建立 `frontend/src/stores/<module>/<id>/use<Id>Store.ts`。
+建立 `<path per project convention>`.
 
 ### State
 （欄位表格：名稱、類型、說明、預設值）
 
-### Getters
-（Getter 清單：名稱、回傳類型、計算邏輯）
+### Derived State / Getters / Selectors
+（清單：名稱、回傳類型、計算邏輯）
 
-### Actions
+### Actions / Methods
 
 #### fetchXxx()
-1. 設定 loading = true
-2. 呼叫 `api.post('/api/xxx', { ... })`
+1. 設定 loading state
+2. 呼叫 API
 3. 更新 state
 4. 處理錯誤
 
 #### saveXxx()
-1. 執行 validateBeforeSave()
-2. 收集 dirty items
+1. 執行驗證
+2. 收集變更項目
 3. 呼叫 API
 4. 重新載入資料
 
@@ -203,39 +197,39 @@
 
 ## 步驟 3：主頁面
 
-建立 `frontend/src/pages/<module>/<id>/<Id>Query.vue`。
+建立 `<path per project convention>`.
 
 ### 頁面結構
 （組件樹，用縮排表示巢狀關係）
 
-### 查詢區
-- Header：<圖示 + 標題 + 按鈕配置>
-- Body：<欄位配置，用 col-N 表示寬度>
+### 查詢區 / 輸入區
+- Header：<標題 + 操作按鈕配置>
+- Body：<欄位配置與佈局>
 
-### 結果區
-- Header：<圖示 + 標題>
-- Body：<表格元件>
+### 結果區 / 展示區
+- Header：<標題>
+- Body：<列表/表格元件>
 
-### 按鈕狀態邏輯
-| 按鈕 | 啟用條件 | 點擊行為 |
-|------|----------|----------|
+### 按鈕/互動狀態邏輯
+| 操作 | 啟用條件 | 行為 |
+|------|----------|------|
 
-### onMounted 初始化
-1. 載入下拉選單
+### 初始化流程
+1. 載入參考資料（下拉選單等）
 2. 設定預設值
-3. 自動查詢
+3. 自動查詢（如適用）
 
 ---
 
 ## 步驟 4：子元件
 
-### <ComponentName>.vue
+### <ComponentName>
 
-**Props**:
-| Prop | 類型 | 說明 |
+**Props / Input**:
+| 名稱 | 類型 | 說明 |
 
-**Events**:
-| Event | 參數 | 說明 |
+**Events / Output**:
+| 名稱 | 參數 | 說明 |
 
 **實作要點**:
 - <要點描述>
@@ -244,8 +238,8 @@
 
 ## 步驟 5：路由配置
 
-修改 `frontend/src/router/routes.ts`，新增：
-（路由配置物件）
+修改路由配置檔，新增：
+（路由配置內容）
 
 ## 使用的共用組件
 

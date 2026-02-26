@@ -1,6 +1,6 @@
 # md-to-code 技能使用指南
 
-> 版本：1.1.0 | 最後更新：2026-02-26
+> 版本：1.2.0 | 最後更新：2026-02-26
 
 ## 這是什麼？
 
@@ -115,7 +115,7 @@ AI 展示：
 
 AI 進行：
 1. 檔案完整性檢查（對照實作計畫）
-2. 程式碼審查（使用 code-reviewer）
+2. 程式碼審查（如有安裝 reviewer 技能則使用，否則 AI 自行審查）
 3. 提示你進行 build 和功能測試
 
 ### 步驟 5：關閉團隊 + 完成報告
@@ -152,13 +152,13 @@ AI 進行：
 
 ```
 你：「用 md-to-code 只實作後端」
-→ AI 只生成 backend-dev teammate
-→ 跳過前端相關步驟
+→ AI 偵測 prompt.md 中只有 02_後端實作（或你明確要求）
+→ 只生成 backend-dev teammate，跳過前端相關步驟
 ```
 
 ---
 
-## 可選整合
+## 可選整合（非必要，未安裝也能正常運作）
 
 | 插件 | 用途 | 時機 |
 |------|------|------|
@@ -175,7 +175,7 @@ AI 進行：
 
 ```
 plugins/md-to-code/
-├── .claude-plugin/plugin.json              ← 插件元資料 (v1.1.0)
+├── .claude-plugin/plugin.json              ← 插件元資料 (v1.2.0)
 ├── skills/md-to-code/
 │   ├── SKILL.md                            ← AI 核心指令（英文，始終載入）
 │   ├── prompts/                            ← Spawn 模板（按需載入）

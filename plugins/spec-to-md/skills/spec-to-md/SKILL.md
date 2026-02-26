@@ -7,6 +7,8 @@ description: >
   to md、toMD、toMd、TOMD、specification, 規格文件, 需求文件, 需求轉換, 實作指示, 實作文件, 技術規格, 文件生成, 文件產生, 前端實作, 後端實作, convert, 轉換。
 ---
 
+<!-- version: 1.2.0 -->
+
 # Spec-to-MD
 
 You are the spec-to-md lead. You transform specification documents into structured AI coding implementation files.
@@ -40,9 +42,13 @@ Launch 3 parallel Task agents in a single message (each with `model: "opus"`, no
 
 Only read user-specified files. Do not scan entire directories. If additional files needed, AskUserQuestion.
 
+> If any subagent fails, AskUserQuestion to verify file paths before retrying. If retry also fails, perform that agent's work in the main flow.
+
 ## Step 3: Confirm Understanding
 
-Use `superpowers:brainstorming` methodology to explore requirements and design intent. Present summary to user:
+> **Optional integration** — if superpowers plugin is installed, use `superpowers:brainstorming` to explore requirements. Otherwise, independently brainstorm edge cases and design alternatives.
+
+Present summary to user:
 
 - Feature name and ID
 - Frontend summary (pages, main operations, key components)
@@ -59,7 +65,9 @@ Read `references/template-structure.md` for document format guidance.
 
 ### 4a: prompt.md (Main Flow)
 
-Use `superpowers:writing-plans` methodology. AI navigation guide for md-to-code skill:
+> **Optional integration** — if superpowers plugin is installed, use `superpowers:writing-plans` methodology.
+
+AI navigation guide for md-to-code skill:
 - Feature overview (purpose, trigger conditions, prerequisites)
 - Implementation scope summary (Processor count, component count)
 - Reference list pointing to detailed documents
@@ -85,21 +93,27 @@ Present key design decisions to user, wait for confirmation.
 
 After 01 confirmation, create team and spawn teammates:
 
-1. `TeamCreate`: team_name = `"spec-<feature-name>"`, description = "Parallel backend + frontend spec production"
+1. `TeamCreate`: team_name = `"spec-<feature-name>"` (lowercase, no spaces, use hyphens), description = "Parallel backend + frontend spec production"
 
 2. Load spawn prompts on demand:
    - Glob `**/spec-to-md/**/prompts/backend-spec.md` then Read. Fill variables, spawn backend-spec teammate.
    - Glob `**/spec-to-md/**/prompts/frontend-spec.md` then Read. Fill variables, spawn frontend-spec teammate.
 
-3. Variables to fill in prompts:
+3. **Prepare shared context file** before spawning:
+   - Write `{output_dir}/context/spec-context.md` containing:
+     - Agent A output (func spec summary) from Step 2
+     - Agent B output (project standards summary) from Step 2
+     - Full path to 01_技術規格.md (do NOT embed the full content)
+   - This avoids context window overload in teammate prompts.
+
+4. Variables to fill in prompts:
    - `{team_name}`: the created team name
-   - `{func_spec_summary}`: Agent A output from Step 2
-   - `{project_standards_summary}`: Agent B output from Step 2
-   - `{tech_spec_content}`: full content of 01_技術規格.md
+   - `{context_file_path}`: path to `{output_dir}/context/spec-context.md`
+   - `{tech_spec_path}`: path to 01_技術規格.md
 
-4. Cross-check: backend-spec sends API endpoints to frontend-spec. frontend-spec verifies Types and Store Actions alignment. Inconsistencies resolved via SendMessage.
+5. Cross-check: Both teammates report completion to TL. TL extracts API endpoint list from backend-spec output and sends to frontend-spec for verification. frontend-spec verifies Types and Store Actions alignment. Inconsistencies resolved via TL-coordinated SendMessage.
 
-5. After both complete, summarize:
+6. After both complete, summarize:
    - Backend Processor responsibility breakdown
    - Frontend component split logic
    - Cross-layer consistency check results
@@ -108,13 +122,20 @@ Present both documents to user for confirmation.
 
 ## Step 5: Close Team + Final Verification
 
-Use `superpowers:verification-before-completion` principles.
+> **Optional integration** — if superpowers plugin is installed, use `superpowers:verification-before-completion` principles. Otherwise, apply thorough self-review before closing.
 
-1. **Shutdown team**: shutdown_request to all teammates → confirm → TeamDelete.
+1. **Shutdown team**: shutdown_request to all teammates → confirm → TeamDelete. If a teammate rejects shutdown, SendMessage asking them to wrap up current work first, then retry shutdown_request.
 
 2. **Completeness**: compare against Step 3 summary — all requirements covered?
 
-3. **Consistency**: verify 02/03 documents match 01 on API endpoints, Entity fields, component names.
+3. **Consistency checklist** — verify 02/03 documents match 01:
+   - [ ] Every API endpoint in 01 has a corresponding handler/controller in 02
+   - [ ] Request parameter names and types match between 01 and 02
+   - [ ] Response format in 01 matches what frontend consumes in 03
+   - [ ] Entity/model field names are identical across 01, 02, and 03
+   - [ ] Error codes defined in 01 are handled in both 02 and 03
+   - [ ] Permission/auth requirements in 01 are enforced in 02
+   - [ ] Component names in 03 match the references in prompt.md
    - List cross-layer check records (teammate communication and fixes).
 
 4. **Self-sufficiency**: confirm 02/03 each contain enough context to work independently without frequent cross-referencing.
@@ -130,6 +151,7 @@ Present final checklist:
 - Code snippets MUST match existing project style (learned from Step 2).
 - 02/03 documents must be self-contained — no frequent cross-referencing to 01 needed.
 - Keep each document at reasonable length — avoid exceeding Claude Code effective processing range.
+- Reference shared context file instead of embedding large documents in spawn prompts. For files over ~200 lines, provide path and let teammate Read on demand.
 - Step 2 uses subagents (efficient, low-cost, no inter-agent communication needed).
 - Step 4c uses Agent Teams (cross-layer consistency check, human intervention support).
-- Teammate prompts must include full context (func spec summary, project standards summary, full 01 content).
+- Teammate prompts include context file path + doc paths. Teammates Read files themselves at startup.

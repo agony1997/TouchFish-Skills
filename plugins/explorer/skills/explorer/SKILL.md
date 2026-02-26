@@ -10,9 +10,17 @@ description: >
   onboarding, 新人導覽, 專案概覽, 技術棧, tech stack。
 ---
 
+<!-- version: 1.2.0 -->
+
 # Project Explorer
 
 You are the explore-leader (Opus). You command sub-agents to explore project structure in parallel, cross-check results, and produce a structured PROJECT_MAP.md.
+
+## Safety Rules
+
+- **READ-ONLY exploration.** Do NOT create, modify, or delete any files (except the final PROJECT_MAP.md output).
+- **Sensitive file protection:** Never report actual values/contents of `.env`, `.env.local`, `*.pem`, `*.key`, `*.p12`, `credentials.json`, `secrets.yml`, or similar files. Only report their existence and purpose.
+- **Before writing PROJECT_MAP.md**, verify the output contains no secrets, passwords, API keys, or tokens.
 
 ## Phase 0: Detect Project Type
 
@@ -23,22 +31,35 @@ You are the explore-leader (Opus). You command sub-agents to explore project str
    - Build files (`build.gradle`, `pom.xml`, `package.json`, `Cargo.toml`, `go.mod`, etc.)
    - Config files (`docker-compose.yml`, `tsconfig.json`, `.env`, etc.)
 
-2. Detection logic:
+2. Detection logic — check these **primary signals** in order:
    ```
-   if root has packages/ or modules/ or multiple build files:
-       type = "multi-module" or "monorepo"
-       if shared infra/ (docker, k8s, ci):
-           type = "hybrid"
-           agents = [infra-explorer] + [module-N-explorer per module]
-       else:
-           agents = [module-N-explorer per module]
-   elif clear frontend/backend split (src/main + src/webapp, or server/ + client/):
-       type = "monolith"
-       agents = [backend-explorer, frontend-explorer]
-   else:
-       type = "monolith (simple)"
-       agents = [single-explorer]
+   Primary signals (first match wins):
+   1. Microservices: multiple service directories with independent build files
+      + docker-compose with multiple services or k8s manifests
+      → type = "microservices"
+      → agents = [infra-explorer] + [service-N-explorer per service] (group if >10)
+   2. Monorepo: packages/, modules/, apps/, or workspace config (pnpm-workspace, lerna, nx)
+      → type = "monorepo"
+      → if shared infra/ (docker, k8s, ci): add [infra-explorer]
+      → agents = [module-N-explorer per module] (group by prefix if >10)
+   3. Library/SDK: single build file + src/lib or lib/ + no application entry point
+      + README with install/usage instructions
+      → type = "library"
+      → agents = [single-explorer]
+   4. Frontend-backend split: clear server/ + client/, or src/main + src/webapp
+      → type = "fullstack"
+      → agents = [backend-explorer, frontend-explorer]
+   5. Default: single build file, standard project layout
+      → type = "monolith"
+      → agents = [single-explorer]
+
+   Secondary signals (refine the primary detection):
+   - data/, notebooks/, models/ → add "data/ML" tag, explore separately if large
+   - docs/ with >10 files → note documentation-heavy project
+   - Multiple .env files → note multi-environment setup
    ```
+
+   **Sub-agent cap: maximum 10.** If modules exceed 10, group by naming prefix or directory structure and present grouping to user for confirmation.
 
 3. AskUserQuestion to confirm:
    - Detected project type
@@ -50,16 +71,19 @@ You are the explore-leader (Opus). You command sub-agents to explore project str
 **Goal:** Dispatch sub-agents in parallel to explore their assigned scopes.
 
 1. Load prompt template:
-   - `Glob("**/explorer/**/prompts/explore-subagent.md")` then Read
+   - Read `prompts/explore-subagent.md`
    - Fill `{scope_path}` and `{project_root}` per agent
 
-2. Dispatch all sub-agents in parallel:
+2. Dispatch all sub-agents in parallel (**max 10 sub-agents**):
    ```
    Task(subagent_type: "Explore", model: "sonnet") x N
    All agents dispatched simultaneously, do not wait between dispatches
    ```
+   If modules > 10, group related modules into single sub-agent scopes.
 
 3. Wait for all sub-agent reports.
+   - If a sub-agent fails: retry once. If still fails, Leader explores that scope manually as fallback.
+   - If some sub-agents fail but others succeed: continue with partial results, note gaps in output.
 
 ## Phase 2: Cross-check & Review
 
@@ -83,14 +107,17 @@ You are the explore-leader (Opus). You command sub-agents to explore project str
 - If user provides location -> dispatch sub-agent to read and summarize
 - If user confirms none -> note "No explicit project standards" in PROJECT_MAP.md
 
-**Review loop:**
-- **Clear doubt** (e.g., report A says Spring Boot 3.2, report B says 3.1)
-  -> Dispatch targeted sub-agent: `Task(subagent_type: "Explore", model: "sonnet")`
-- **Uncertain** (e.g., unknown module purpose)
-  -> AskUserQuestion; dispatch sub-agent to verify if needed
-- **No issues** -> item passes
+**Review loop (max 3 iterations):**
 
-**Repeat until ALL checklist items pass, then proceed to Phase 3.**
+Classify each issue into one of three categories:
+- **Factual discrepancy** (e.g., report A says Spring Boot 3.2, report B says 3.1)
+  -> Dispatch targeted sub-agent to verify: `Task(subagent_type: "Explore", model: "sonnet")`
+- **Contextual uncertainty** (e.g., unknown module purpose, ambiguous convention)
+  -> AskUserQuestion to clarify
+- **True inconsistency** (e.g., genuine config conflict in the project itself)
+  -> Record as "Known Issue" in PROJECT_MAP.md
+
+After **3 iterations**, any remaining unresolved items become "Known Issues" in the output. Proceed to Phase 3.
 
 ## Phase 3: Consolidate Output
 
@@ -98,7 +125,7 @@ You are the explore-leader (Opus). You command sub-agents to explore project str
 
 1. AskUserQuestion for output path (default: project root; alternatives: `docs/`, custom)
 2. Load output template:
-   - `Glob("**/explorer/**/references/project-map-template.md")` then Read
+   - Read `references/project-map-template.md`
 3. Write PROJECT_MAP.md using Write tool
 4. Present summary to user:
    - Project type
