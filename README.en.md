@@ -48,7 +48,7 @@ claude mcp add-plugin ./path/to/TouchFish-Skills
 | `spec-to-md` | 1.1.0 | Conversion | Spec files → structured AI coding implementation docs | [Guide](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
 | `md-to-code` | 1.1.0 | Implementation | Implementation docs → code (parallel Agent Teams) | [Guide](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
 | `explorer` | 1.1.0 | Exploration | Project explorer: Opus Leader + sub-agents parallel exploration, outputs project map | [Guide](plugins/explorer/docs/GUIDE.zh-TW.md) |
-| `dev-team` | 1.1.0 | Collaboration | Dev team: multi-role pipeline (PM/Dev/QA), dynamic scaling, mixed agents | [Guide](plugins/dev-team/docs/GUIDE.zh-TW.md) |
+| `dev-team` | 2.1.0 | Collaboration | Dev team: task pool architecture (TL + challenger + workers), self-assignment, Agent Metrics | [Guide](plugins/dev-team/docs/GUIDE.zh-TW.md) |
 
 ## Architecture Overview
 
@@ -111,8 +111,13 @@ touchfish-skills/
 │   │   └── docs/GUIDE.zh-TW.md
 │   ├── md-to-code/                      # Same as spec-to-md
 │   ├── explorer/                        # Has prompts/ + references/
-│   └── dev-team/                        # Has prompts/ (4 role templates)
-└── docs/plans/                          # Design & plan documents
+│   └── dev-team/
+│       ├── skills/dev-team/
+│       │   ├── SKILL.md
+│       │   ├── prompts/                 # challenger.md + worker.md
+│       │   └── references/              # 5 tracking templates + qa-review-template
+│       └── docs/GUIDE.zh-TW.md
+└── LICENSE
 ```
 
 ## Attribution

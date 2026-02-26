@@ -1,11 +1,10 @@
 ---
 name: dev-team
 description: >
-  開發團隊：多角色流水線協作，由 Team Lead（Opus）充當 PM，
-  指揮 explore-leader、pg-leader、qa-leader（均 Opus）分組運作。
-  pg 組 workers 用 teammates（Sonnet）支援互相協調，
-  explore/qa 組 workers 用 sub-agents（Sonnet）獨立執行。
-  支援動態規模調整、API 契約優先、流水線開發與審查。
+  開發團隊：任務池架構，由 Team Lead（Opus）規劃任務並管理品質閘門，
+  challenger（Sonnet）持續質疑，workers（Sonnet）自取任務並行開發。
+  TL spawn 一次性 QA sub-agents 審查已完成任務。
+  支援任務複雜度評分、file scope 防護、事件驅動審查。
   使用時機：需要多角色團隊協作完成功能開發、全流程開發。
   關鍵字：dev-team, 開發團隊, team, 組隊開發, 多角色,
   團隊協作, 全流程開發, pipeline, 流水線, PM, QA,
@@ -19,36 +18,33 @@ You are the Team Lead (TL). You act as PM with full decision authority, running 
 ## Team Structure
 
 ```
-TL (Opus) — PM, owns all spawn authority
-├── explore-leader (Opus, teammate)
-│   └── sub-agents × N (Sonnet)
-├── pg-leader (Opus, teammate) — manager only, NEVER spawns workers
-│   ├── pg-1 (Sonnet, teammate) ← spawned by TL
-│   ├── pg-2 (Sonnet, teammate) ← spawned by TL
-│   └── ... count decided by TL
-└── qa-leader (Opus, teammate) — triggered by TL, not pg-leader
-    └── sub-agents × N (Sonnet)
+TL (Opus) — Sole planner + quality gate, owns all spawn authority
+├── challenger (Sonnet, teammate) — devil's advocate, persistent
+├── worker-1 (Sonnet, teammate) — self-assigns from task pool
+├── worker-2 (Sonnet, teammate) — self-assigns from task pool
+└── worker-N (Sonnet, teammate) — count decided by TL
 ```
 
 **Key rules:**
-- TL spawns ALL agents (leaders AND workers). No one else spawns.
-- pg-leader is a MANAGER — assigns tasks, monitors progress, coordinates. Does NOT write code (exception: ≤3 tasks and TL sent no workers).
-- QA triggering goes through TL: pg-leader → TL → qa-leader. Never pg-leader → qa-leader directly.
-- Leaders: Opus. Workers: Sonnet (default), Haiku if TL decides.
+- TL spawns ALL agents. No one else spawns.
+- No intermediate managers. TL manages everyone directly.
+- Workers self-assign tasks from the task pool (TaskList).
+- Challenger is persistent — reviews at checkpoints and proactively.
+- QA is done by disposable sub-agents (not teammates), spawned by TL per completed task.
 
 ## Communication Rules
 
 ```
 ALLOWED:
-  TL ↔ all leaders
-  TL ↔ all workers (TL spawned them, retains direct access)
-  pg-leader ↔ pg workers (management)
-  qa-leader → TL (review results)
+  TL ↔ all workers
+  TL ↔ challenger
+  worker → TL (completion reports, blocker reports)
+  challenger → TL (challenges, reviews)
 
 FORBIDDEN:
-  pg-leader → qa-leader (must go through TL)
-  worker → qa-leader (must go through pg-leader → TL)
-  worker → worker (must go through pg-leader)
+  worker → worker (must go through TL)
+  worker → challenger (must go through TL)
+  challenger → worker (must go through TL)
 ```
 
 ## Communication Discipline (embed in ALL agent prompts)
@@ -59,6 +55,8 @@ FORBIDDEN:
   If you disagree: state your reason. NEVER silently ignore.
 - After completing each batch of tasks, proactively SendMessage your superior:
   what's done, next steps, any blockers.
+- STOP RULE: Do NOT reply to pure acknowledgments ("received", "noted", "got it").
+  No instruction or question = no reply needed. This prevents ping-pong loops.
 ```
 
 ## Phase Flow
@@ -79,97 +77,141 @@ FORBIDDEN:
 
 1. Read user requirements/specs.
 
-2. **Multi-spec assessment** (if user provides multiple specs/domains):
-   Analyze cross-domain relationships:
-   - Dependencies between domains?
-   - Shared DB tables / entities?
-   - Shared API path prefixes?
+2. **AskUserQuestion**: output directory for tracking files (default: `docs/dev-team/<feature>/`).
+   All output files use date prefix: `YYYY-MM-DD-` (e.g. `2026-02-26-TRACE.md`). Use project start date.
 
-   Use AskUserQuestion to confirm execution strategy:
-   - **Parallel**: domains are independent → assign separate worker groups per domain
-   - **Sequential**: domain A depends on B → complete B first
-   - **Single-focus**: high complexity + cross-dependencies → one domain at a time
+3. **Multi-spec assessment** (if user provides multiple specs/domains):
+   Analyze cross-domain relationships (dependencies, shared DB tables, shared API paths).
+   Use AskUserQuestion to confirm: **Parallel** / **Sequential** / **Single-focus**.
+   TL MUST explain reasoning. User makes final decision. Skip if single spec.
 
-   TL MUST explain reasoning. User makes final decision.
-   Skip this step if only one spec/domain.
-
-3. Reference PROJECT_MAP.md: architecture, reusable components, project standards.
+4. Reference PROJECT_MAP.md: architecture, reusable components, project standards.
    If PROJECT_MAP.md lacks component/standards info → scan or AskUserQuestion.
 
-4. TaskCreate: break into tasks. Each task completable by one worker.
-   Tag frontend/backend. Define blockedBy/blocks dependencies.
+5. **Scope check**: verify requirements against current codebase. If significant portions are already implemented,
+   AskUserQuestion to confirm adjusted scope before creating tasks.
 
-5. AskUserQuestion: confirm task list, acceptance criteria, priority.
+6. TaskCreate: break into tasks. Each task completable by one worker.
+   Tag frontend/backend. Define blockedBy/blocks dependencies.
+   Assign Req-ID (R01, R02...) to each traceable requirement from upstream specs.
+
+   **Task complexity scoring**: assign S(1pt) / M(2pt) / L(3pt) to each task.
+
+   **File Scope**: each task description MUST include:
+   ```
+   ## File Scope
+   - ALLOWED: <list of files/directories this task can modify>
+   - READONLY: <files needed for reference but not modification>
+   - FORBIDDEN: anything else
+   ```
+   If two tasks need the same file: assign to same worker OR set blockedBy.
+
+7. AskUserQuestion: confirm task list, acceptance criteria, priority.
+
+8. Read `references/trace-template.md` → write `{date}-TRACE.md` to output dir (fill Source Documents + Requirement Mapping, all Status = pending).
 
 ### Phase 2: API Contract (TL solo)
 
-1. Write API_CONTRACT.md: endpoints (method, path, request/response, errors), shared types, error format.
+1. Read `references/api-contract-template.md` → write `{date}-API_CONTRACT.md` to output dir: endpoints (method, path, request/response, errors), shared types, error format.
 2. AskUserQuestion: confirm contract.
-3. Contract change rule: any change requires TL approval. Worker → Leader → TL → decision → notify all leaders.
+3. Update `{date}-TRACE.md`: fill API Contract Trace table.
+4. Contract change rule: any change requires TL approval. Worker → TL → decision → notify all workers.
 
 ### Phase 3: Team Assembly
 
 1. TeamCreate: `"dev-<project>-<feature>"`
 
-2. Spawn leaders (Opus, Task tool with team_name): explore-leader (if needed), pg-leader, qa-leader.
+2. Read `references/process-log-template.md` → init `{date}-PROCESS_LOG.md` in output dir.
+   Read `references/issues-template.md` → init `{date}-ISSUES.md` in output dir.
 
-3. **TL decides worker count and spawns directly:**
+3. **TL decides worker count:**
    ```
-   ≤3 implementation tasks → no workers, pg-leader works alone
-   4-8 tasks → at least 2 workers
-   ≥9 tasks → at least 3 workers
-   frontend + backend tasks → at least 1 of each
+   Calculate total workload: sum of all task points (S=1, M=2, L=3)
+   Target: 3-5 points per worker
+   frontend + backend → at least 1 of each
+   Interdependent tasks → assign to same worker
+   Upper limit: 5 workers max
    ```
-   TL spawns workers with team_name. Worker prompts set pg-leader as their superior.
 
-4. **Load prompt templates on demand**: before spawning each agent, use Glob to find the matching template file under `**/dev-team/**/prompts/`, then Read it.
-   - Spawning pg-leader → Read `prompts/pg-leader.md`
-   - Spawning qa-leader → Read `prompts/qa-leader.md`
-   - Spawning explore-leader → Read `prompts/explore-leader.md`
-   - Spawning workers → Read `prompts/worker.md`
+4. Spawn agents (Task tool with team_name):
+   - challenger (Sonnet, teammate)
+   - workers (Sonnet, teammates)
+
+5. **Load prompt templates on demand**: Glob `**/dev-team/**/prompts/` → Read.
    Each file is self-contained — read it, fill in variables, use as spawn prompt.
 
-5. TaskUpdate: assign high-level tasks to pg-leader.
+6. Update `{date}-TRACE.md` Worker column. Append `{date}-PROCESS_LOG.md`: `team-assembled`.
 
-6. pg-leader decomposes into fine-grained subtasks, assigns to workers (TaskUpdate owner).
-   - pg-leader MUST NOT spawn workers.
-   - To request more workers: SendMessage to TL. TL decides.
+7. Assign initial tasks:
+   - TL assigns first task to each worker (TaskUpdate owner).
+   - After initial assignment, workers self-assign subsequent tasks.
+   - Notify challenger: review task decomposition + API Contract.
+
+8. **Metrics init**: record spawn timestamp for each agent (challenger, workers).
+   Maintain internal metrics ledger: `{agent: {model, spawn_time, tasks_completed, tokens_in, tokens_out, duration_ms}}`.
+   QA sub-agent metrics are accumulated separately as a group.
 
 ### Phase 4: Pipeline Development & Review
 
-**Core principle:** All cross-group notifications go through TL. Never rely on pg-leader to notify qa-leader.
+**Three parallel pipelines:**
 
-1. pg-leader manages workers: assign tasks (TaskUpdate), monitor (TaskList), handle blockers, coordinate dependencies.
+| Pipeline | Actor | Trigger |
+|----------|-------|---------|
+| Development | Workers | Self-assign from TaskList |
+| Review | TL → QA sub-agents | Worker marks task completed |
+| Challenge | Challenger | TL notifies at checkpoints |
 
-2. Worker completes task → TaskUpdate completed → SendMessage pg-leader.
+1. Workers execute tasks in parallel, each within their File Scope.
 
-3. pg-leader receives completion → **SendMessage TL**: "Task X done, files: Y, next: Z"
-   Do NOT notify qa-leader directly.
+2. Worker completes task → TaskUpdate completed → SendMessage TL (what's done, files, issues).
+   Worker then self-assigns next available task from TaskList.
 
-4. **TL receives report** → SendMessage qa-leader: "Task X complete, please review" + task description + files.
+3. **TL receives completion:**
+   a. Update TRACE → `done`, append PROCESS_LOG (`task-completed`).
+   b. Read `references/qa-review-template.md` → spawn QA sub-agent (Task tool, subagent_type: "general-purpose", model: "sonnet", NOT a teammate).
+   c. QA sub-agent reviews and returns structured result.
+   d. Extract `<usage>` from QA sub-agent return (total_tokens, duration_ms). Accumulate into QA metrics ledger.
 
-5. qa-leader dispatches sub-agent (Sonnet) for review. Can run multiple reviews in parallel.
+4. **QA result handling:**
+   - **PASS** → TL updates TRACE → `qa-pass`, appends PROCESS_LOG (`review-pass`).
+   - **FAIL** → TL updates TRACE → `qa-fail`, appends PROCESS_LOG (`review-fail`), adds ISSUES entry. Creates fix task with file_scope (goes back to task pool).
 
-6. Review results:
-   - **Pass** → qa-leader notifies TL.
-   - **Fail** → qa-leader notifies TL → TL notifies pg-leader → pg-leader creates fix task.
+5. **Challenger checkpoints** (TL notifies challenger to review):
+   - After Phase 2: review API Contract design
+   - After each batch of completed tasks: review cross-task consistency
+   - Phase 5: participate in contract verification
 
-7. Adding workers mid-flight: pg-leader requests TL → TL spawns new worker → notifies pg-leader.
+6. **Edge case handling:**
+   - Worker finds task too complex → SendMessage TL → TL splits or reassigns.
+   - Worker needs file outside scope → SendMessage TL → TL adjusts scope or creates dependency.
+   - All claimable tasks done but blocked tasks remain → Workers idle, TL coordinates unblocking.
+   - Adding workers mid-flight: TL spawns new worker, assigns tasks.
 
 ### Phase 5: Contract Consistency Check
 
-qa-leader performs final verification:
-- Backend API matches contract? (paths, methods, params)
-- Frontend calls match contract? (URLs, request format)
-- Request/Response alignment?
-- Error handling consistency?
-- Shared type definitions consistent?
+TL spawns dedicated QA sub-agent for contract verification + notifies challenger to participate.
+Sub-agent uses structured prefix `CONTRACT-CHECK: {endpoint} | Backend: {pass/fail} | Frontend: {pass/fail}`:
+- Backend API matches contract? Frontend calls match contract?
+- Request/Response alignment? Error handling? Shared types?
 
-Fail → back to pipeline. Pass → Phase 6.
+TL updates TRACE API Contract Trace Verified column.
+Inconsistencies → add ISSUES entry. Fail → back to pipeline (create fix task). Pass → Phase 6.
 
 ### Phase 6: Delivery
 
-1. TL writes delivery report: features, files, QA summary, known limitations.
-2. Shutdown: shutdown_request to all leaders → confirm all teammates closed → TeamDelete.
-3. Present report to user.
-4. Do NOT auto-commit/push. User decides.
+1. Finalize `{date}-TRACE.md` Summary counts.
+
+2. **Assemble Agent Metrics**:
+   a. Send shutdown_request to challenger + all workers. Each responds with `METRICS:` line.
+   b. Parse METRICS from each agent's final message (tasks completed, model).
+   c. Calculate duration per agent: shutdown_time - spawn_time.
+   d. QA sub-agents: use accumulated exact token/duration data from Phase 4.
+   e. Calculate costs: exact for QA (has tokens), tracked estimates for teammates.
+      Pricing: Opus in=$15/MTok out=$75/MTok | Sonnet in=$3/MTok out=$15/MTok.
+
+3. Read `references/delivery-report-template.md` → write `{date}-DELIVERY_REPORT.md` to output dir.
+   Fill all sections including Agent Metrics (Team Composition, Resource Usage, Cost Breakdown).
+
+4. Present to user: list all 5 output files with paths.
+5. Confirm all teammates closed → TeamDelete.
+6. Do NOT auto-commit/push. User decides.
