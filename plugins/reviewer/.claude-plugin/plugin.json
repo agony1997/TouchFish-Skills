@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "reviewer",
   "description": "專案規範審查員：讀取專案內的規範文件，執行程式碼合規審查",
   "author": {
