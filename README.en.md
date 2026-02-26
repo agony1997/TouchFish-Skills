@@ -12,25 +12,43 @@ A Claude Code skill plugin marketplace with 7 workflow-oriented plugins.
 
 > **Design Principle**: Only keep skills with clear workflows. Pure domain knowledge (Spring Boot, PostgreSQL, Vue.js, etc.) is left to Claude's built-in capabilities; process methodologies (TDD, brainstorming, debugging) are handled by external plugins like superpowers.
 
-## Quick Start
+### v1.1.0 Unified Architecture (2026-02-26)
+
+All 7 plugins now follow a unified structure:
+
+- **English SKILL.md** (60–150 lines) — always loaded by AI, terse directive style
+- **references/ + prompts/** (on-demand) — loaded via Glob + Read to minimize context usage
+- **docs/GUIDE.zh-TW.md** — Chinese human-readable guide
+
+| Metric | v1.0.0 | v1.1.0 |
+|--------|--------|--------|
+| Total SKILL.md lines (7 plugins) | ~3,055 | ~912 (-70%) |
+| On-demand reference files | 1 | 18 |
+| Human guides | 1 | 7 |
+
+## Installation
 
 ```bash
-claude /plugin add ./path/to/touchfish-skills
+# 1. Clone locally
+git clone https://github.com/agony1997/TouchFish-Skills.git
+
+# 2. Add to Claude Code (installs all plugins; enable individual skills as needed)
+claude mcp add-plugin ./path/to/TouchFish-Skills
 ```
 
-Set **git-nanny** at User scope (globally available); enable others per project.
+> **Tip**: Set `git-nanny` at User scope (globally available); enable others per project.
 
 ## Plugin List
 
-| Plugin | Type | Description |
-|--------|------|-------------|
-| `ddd-core` | Methodology | DDD end-to-end delivery: Event Storming → SA → SD → Implementation Plan |
-| `git-nanny` | Operations | Git Commit, PR, branching strategy, release & Changelog |
-| `reviewer` | Review | Project standards reviewer: reads project standards files, runs compliance checks |
-| `spec-to-md` | Conversion | Spec files → structured AI coding implementation docs |
-| `md-to-code` | Implementation | Implementation docs → code (parallel Agent Teams) |
-| `explorer` | Exploration | Project explorer: Opus Leader + sub-agents parallel exploration, outputs project map |
-| `dev-team` | Collaboration | Dev team: multi-role pipeline (PM/Dev/QA), dynamic scaling, mixed agents |
+| Plugin | Version | Type | Description | Guide |
+|--------|---------|------|-------------|-------|
+| `ddd-core` | 1.1.0 | Methodology | DDD end-to-end delivery: Event Storming → SA → SD → Implementation Plan | [Guide](plugins/ddd-core/docs/GUIDE.zh-TW.md) |
+| `git-nanny` | 1.1.0 | Operations | Git Commit, PR, branching strategy, release & Changelog | [Guide](plugins/git-nanny/docs/GUIDE.zh-TW.md) |
+| `reviewer` | 1.1.0 | Review | Project standards reviewer: reads project standards files, runs compliance checks | [Guide](plugins/reviewer/docs/GUIDE.zh-TW.md) |
+| `spec-to-md` | 1.1.0 | Conversion | Spec files → structured AI coding implementation docs | [Guide](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
+| `md-to-code` | 1.1.0 | Implementation | Implementation docs → code (parallel Agent Teams) | [Guide](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
+| `explorer` | 1.1.0 | Exploration | Project explorer: Opus Leader + sub-agents parallel exploration, outputs project map | [Guide](plugins/explorer/docs/GUIDE.zh-TW.md) |
+| `dev-team` | 1.1.0 | Collaboration | Dev team: multi-role pipeline (PM/Dev/QA), dynamic scaling, mixed agents | [Guide](plugins/dev-team/docs/GUIDE.zh-TW.md) |
 
 ## Architecture Overview
 
@@ -69,58 +87,32 @@ Below are recommended skill combinations for common scenarios. **Bold** items ar
 
 > **No superpowers installed?** All touchfish-skills work independently; superpowers integration points are optional enhancements.
 
-## Configuration Examples
-
-#### User scope — Global tools
-
-`~/.claude/settings.json` (see `examples/global-settings.json`):
-
-```jsonc
-{
-  "enabledPlugins": {
-    "touchfish-skills": true,
-    "git-nanny@touchfish-skills": true
-  }
-}
-```
-
-#### Project scope — Per-project
-
-`<project>/.claude/settings.json` (see `examples/project-settings.json`):
-
-```jsonc
-{
-  "enabledPlugins": {
-    "touchfish-skills": true,
-    "ddd-core@touchfish-skills": true,
-    "reviewer@touchfish-skills": true,
-    "spec-to-md@touchfish-skills": true,
-    "md-to-code@touchfish-skills": true,
-    "explorer@touchfish-skills": true,
-    "dev-team@touchfish-skills": true
-  }
-}
-```
 
 ## Directory Structure
 
 ```
 touchfish-skills/
-├── README.md                        # 繁體中文
-├── README.en.md                     # English
+├── README.md / README.en.md
 ├── LICENSE
 ├── plugins/
-│   ├── ddd-core/                    # DDD methodology
-│   ├── git-nanny/                   # Git workflow
-│   ├── reviewer/                    # Standards reviewer
-│   ├── spec-to-md/                  # Spec → implementation docs
-│   ├── md-to-code/                  # Docs → code
-│   ├── explorer/                    # Project explorer (parallel sub-agents)
-│   └── dev-team/                    # Dev team (multi-role pipeline)
-├── docs/plans/                      # Design & plan documents
-└── examples/                        # Configuration examples
-    ├── global-settings.json
-    └── project-settings.json
+│   ├── ddd-core/
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── skills/ddd-core/
+│   │   │   ├── SKILL.md                 # AI instructions (English, always loaded)
+│   │   │   └── references/              # On-demand (theory, templates)
+│   │   └── docs/GUIDE.zh-TW.md          # Chinese human guide
+│   ├── git-nanny/                       # Same structure
+│   ├── reviewer/                        # Same structure
+│   ├── spec-to-md/
+│   │   ├── skills/spec-to-md/
+│   │   │   ├── SKILL.md
+│   │   │   ├── prompts/                 # Teammate spawn templates (on-demand)
+│   │   │   └── references/
+│   │   └── docs/GUIDE.zh-TW.md
+│   ├── md-to-code/                      # Same as spec-to-md
+│   ├── explorer/                        # Has prompts/ + references/
+│   └── dev-team/                        # Has prompts/ (4 role templates)
+└── docs/plans/                          # Design & plan documents
 ```
 
 ## Attribution

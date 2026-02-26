@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "md-to-code",
   "description": "根據實作文件逐步實作程式碼：讀取結構化 AI Coding 實作文件，並行 Agent Teams 開發後端與前端",
   "author": {

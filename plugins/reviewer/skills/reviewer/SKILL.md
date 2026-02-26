@@ -9,93 +9,56 @@ description: >
   code review, 程式碼審查, 規格檢查, lint, linting, coding standards, 編碼規範, 合規審查, 規範審查, quality, 品質, 程式碼品質。
 ---
 
-# 專案規範審查員 (Standards Reviewer)
+# Standards Reviewer
 
-> Skill = 審查工作流。規範內容由使用者維護在專案 repo 中。
+You are a standards reviewer. You read project standards files and audit code for compliance. Standards content is user-maintained in the project repo — this skill provides the review workflow only.
 
-## 流程
+## Workflow
 
-### 1. 定位規範文件
+### Step 1 — Locate Standards
 
-觸發後，按以下順序尋找專案規範：
+On activation, find project standards in order:
 
-1. **慣例路徑**：依序檢查 `.standards/`、`docs/standards/`、`standards/`
-2. **CLAUDE.md 指示**：檢查專案的 CLAUDE.md 是否指定規範路徑
-3. **找不到時**：使用 AskUserQuestion 詢問使用者規範文件位置
+1. **Convention paths** — check `.standards/`, `docs/standards/`, `standards/`
+2. **CLAUDE.md** — check if project CLAUDE.md specifies a standards path
+3. **Ask user** — if not found, use AskUserQuestion to ask for the standards file location
 
-找到後，列出所有規範檔案並使用 Read 載入（Progressive Disclosure — 只載入需要的）。
+After locating, list all standards files and load with Read (progressive disclosure — only load what is needed).
 
-**首次使用建議**：若專案尚無規範文件，提示使用者參考下方「專案端設置指南」建立。
+- If no standards files exist: suggest user create `.standards/` directory
+  - Reference: Read `references/review-report-template.md` — contains project setup guide
 
-### 2. 確認審查範圍
+### Step 2 — Confirm Review Scope
 
-向使用者確認：
-- 要審查哪些檔案？（指定檔案 / 最近修改的檔案 / 整個功能模組）
-- 審查深度？（快速掃描 / 完整審查）
+Use AskUserQuestion to confirm:
 
-### 3. 執行審查
+- **Files**: specific files / recently modified / entire module
+- **Depth**: quick scan / full review
 
-逐項核對程式碼，審查項目**以載入的規範文件內容為準**。
+### Step 3 — Execute Review
 
-通用審查維度（依規範文件實際包含的章節調整）：
+Review code against **loaded standards content** (not hardcoded checks).
 
-- **命名規範**：類別、方法、變數、檔案路徑、常數
-- **架構規範**：架構模式、層級職責、相依方向
-- **程式碼風格**：工具類別使用、錯誤處理、API 格式
-- **資料庫規範**：Entity 對應、Migration、索引
-- **前端規範**：元件結構、狀態管理、型別定義
+Generic review dimensions — adapt to actual standards sections present:
 
-> **可選整合** — 若已安裝 superpowers 插件，在產出報告前可搭配 `superpowers:verification-before-completion` 使用，確保審查的完整性。
+- **Naming** — classes, methods, variables, file paths, constants
+- **Architecture** — patterns, layer responsibilities, dependency direction
+- **Code style** — utility classes, error handling, API format, logging
+- **Database** — entity mapping, migration naming, indexes
+- **Frontend** — component structure, state management, type definitions
 
-### 4. 產出審查報告
+> Optional integration — if superpowers plugin is installed, use `superpowers:verification-before-completion` before producing the report to ensure review completeness.
 
-```
-## 審查報告
+### Step 4 — Produce Review Report
 
-**專案**: <專案名稱>
-**載入規範**: <規範檔案清單與路徑>
-**審查範圍**: <檔案清單>
-**審查時間**: <日期>
+1. Read `references/review-report-template.md` for report format
+2. Fill in all sections: project info, non-compliant items table, compliant summary, statistics
+3. Present report to user
 
-### 不合規項目
+> Optional integration — if superpowers plugin is installed and issues need fixing, use `superpowers:systematic-debugging` for systematic root-cause analysis and fixes.
 
-| # | 檔案 | 行號 | 規範項目 | 問題描述 | 建議修正 |
-|---|------|------|----------|----------|----------|
-| 1 | ... | ... | ... | ... | ... |
+## Notes
 
-### 合規項目摘要
-
-- [x] <通過的項目>
-
-### 總結
-
-- 審查項目數: N
-- 合規: N
-- 不合規: N
-- 合規率: N%
-```
-
-> **可選整合** — 若已安裝 superpowers 插件，當審查發現需修復的問題時，可搭配 `superpowers:systematic-debugging` 使用，以系統化方式定位和修復問題。
-
-## 專案端設置指南
-
-在專案中建立規範文件：
-
-```
-your-project/
-├── .standards/
-│   ├── common.md          # 公司/團隊共通規範
-│   └── project.md         # 本專案特有規範
-├── src/
-└── ...
-```
-
-多份規範檔案會全部載入，可自由組織（依公司/團隊/專案拆分）。
-
-規範檔案建議包含的章節（按需取捨）：
-
-- 命名規範（類別、方法、變數、檔案路徑、常數）
-- 架構規範（架構模式、層級職責、相依方向）
-- 程式碼風格（工具類別、錯誤處理、API 格式、日誌）
-- 資料庫規範（Entity 對應、Migration 命名、索引）
-- 前端規範（元件結構、狀態管理、型別定義）
+- Standards are user-maintained in the project repo; this skill only provides the review workflow
+- Multiple standards files are all loaded — organize by company / team / project as needed
+- Review items are derived from loaded standards, not from a fixed checklist

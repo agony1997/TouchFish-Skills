@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "git-nanny",
   "description": "Git 全方位專家：涵蓋 Commit 訊息生成、Pull Request 建立與審查、分支策略管理、版本發布與 Changelog",
   "author": {
