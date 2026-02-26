@@ -11,7 +11,7 @@
 - **限界上下文**: [Context 名稱]
 - **涉及聚合**: [聚合列表]
 - **API 端點數**: N 個
-- **技術棧**: Spring Boot 3.x + JPA + PostgreSQL
+- **技術棧**: [User's confirmed tech stack]
 
 ## 2. 聚合結構設計
 [各聚合的內部結構]
@@ -38,57 +38,44 @@
 [重要的設計決策和理由]
 ```
 
-## Standard Package Layout (Spring Boot + JPA + DDD)
+## Standard Package Layout (DDD Layered Architecture)
+
+> Example below uses Spring Boot + JPA. Adapt to your confirmed tech stack.
 
 ```
-src/main/java/com/example/[project]/
+src/main/java/com/example/[project]/    # [Adapt path to your language/framework]
 ├── [context]/                          # 限界上下文
 │   ├── domain/                         # 領域層
 │   │   ├── model/                      # 聚合、Entity、VO
-│   │   │   ├── [AggregateRoot].java
-│   │   │   ├── [InternalEntity].java
-│   │   │   ├── [ValueObject].java
-│   │   │   └── [AggregateRootId].java
+│   │   │   ├── [AggregateRoot]
+│   │   │   ├── [InternalEntity]
+│   │   │   ├── [ValueObject]
+│   │   │   └── [AggregateRootId]
 │   │   ├── event/                      # 領域事件
-│   │   │   └── [DomainEvent].java
+│   │   │   └── [DomainEvent]
 │   │   ├── repository/                 # 倉儲介面
-│   │   │   └── [AggregateRoot]Repository.java
+│   │   │   └── [AggregateRoot]Repository
 │   │   └── service/                    # 領域服務（跨聚合邏輯）
-│   │       └── [DomainService].java
+│   │       └── [DomainService]
 │   │
 │   ├── application/                    # 應用層
 │   │   ├── command/                    # 命令 DTO
-│   │   │   └── [Command]Command.java
 │   │   ├── query/                      # 查詢 DTO
-│   │   │   └── [Query]Query.java
 │   │   ├── dto/                        # 回應 DTO
-│   │   │   └── [Response]Response.java
 │   │   ├── service/                    # 應用服務
-│   │   │   └── [AggregateRoot]ApplicationService.java
 │   │   └── eventhandler/              # 事件處理器
-│   │       └── [Event]Handler.java
 │   │
 │   ├── infrastructure/                 # 基礎設施層
-│   │   ├── persistence/                # JPA 實作
-│   │   │   ├── Jpa[AggregateRoot]Repository.java
-│   │   │   └── SpringData[AggregateRoot]Repository.java
+│   │   ├── persistence/                # ORM/DB 實作
 │   │   └── adapter/                    # 外部系統適配器
-│   │       └── [ExternalSystem]Adapter.java
 │   │
 │   └── interfaces/                     # 介面層（展示層）
-│       ├── rest/                       # REST Controller
-│       │   └── [AggregateRoot]Controller.java
+│       ├── rest/                       # API Controller/Handler
 │       └── dto/                        # Request/Response 轉換
-│           ├── [Request]Request.java
-│           └── [Assembler].java
 │
 └── shared/                             # 共享核心
     ├── domain/                         # 共用 Value Object
-    │   ├── Money.java
-    │   └── AuditInfo.java
     └── infrastructure/                 # 共用基礎設施
-        └── exception/
-            └── GlobalExceptionHandler.java
 ```
 
 ## Aggregate Structure Format

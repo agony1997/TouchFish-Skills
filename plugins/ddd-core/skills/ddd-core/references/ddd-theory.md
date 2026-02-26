@@ -58,32 +58,7 @@ public class Product {
 
 定義 Bounded Context 之間的關係和整合模式。
 
-**Shared Kernel（共享核心）：** 兩個上下文共用一組程式碼。
-
-```java
-// Shared Kernel - 兩個上下文都使用
-public class Money {
-    private final BigDecimal amount;
-    private final Currency currency;
-
-    public Money(BigDecimal amount, Currency currency) {
-        if (amount == null || currency == null) {
-            throw new IllegalArgumentException("Amount and currency are required");
-        }
-        this.amount = amount;
-        this.currency = currency;
-    }
-
-    public Money add(Money other) {
-        if (!this.currency.equals(other.currency)) {
-            throw new IllegalArgumentException("Cannot add different currencies");
-        }
-        return new Money(this.amount.add(other.amount), this.currency);
-    }
-
-    // equals, hashCode based on amount and currency
-}
-```
+**Shared Kernel（共享核心）：** 兩個上下文共用一組程式碼（例如 Money Value Object — see Tactical Design § Value Object for full example）。
 
 **Anti-Corruption Layer（防腐層）：** 保護自己的領域模型不被外部系統污染。
 
@@ -581,7 +556,7 @@ public class OrderApprovalService {
 | Domain Event | 過去式命名、不可變 | OrderPlacedEvent |
 | Repository | 聚合根的持久化介面 | OrderRepository |
 | Domain Service | 跨 Entity 的業務邏輯 | TransferMoneyService |
-| Factory | 複雜物件的建立邏輯 | OrderFactory |
+| Factory | 複雜物件的建立邏輯（use static factory methods on Aggregate Root） | Order.create(...) |
 
 **Strategic vs Tactical:**
 

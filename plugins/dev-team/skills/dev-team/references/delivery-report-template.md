@@ -36,24 +36,24 @@
 
 | Agent | Tokens (in/out) | Duration | Est. Cost (USD) | Source |
 |-------|-----------------|----------|-----------------|--------|
-| TL | — | {duration} | — | tracked |
-| challenger | — | {duration} | — | tracked |
-| {worker} | — | {duration} | — | tracked |
+| TL | n/a | {duration} | n/a | tracked |
+| challenger | n/a | {duration} | n/a | tracked |
+| {worker} | n/a | {duration} | n/a | tracked |
 | QA ({n} reviews) | {in} / {out} | {duration} | ${cost} | exact |
 | **Total** | | **{total}** | **~${total}** | |
 
-<!-- Source: "exact" = from Task tool usage return, "tracked" = TL timestamp tracking -->
+<!-- Source: "exact" = from Task tool usage return (QA sub-agents only), "tracked" = TL wall-clock tracking.
+     Token counts for teammates (TL, workers, challenger) are NOT available via API — marked n/a. -->
 
-### Cost Breakdown
+### QA Cost Breakdown (exact data only)
 
-| Role | Count | Est. Cost | % of Total |
-|------|-------|-----------|------------|
-| TL (Opus) | 1 | ${cost} | {pct}% |
-| Workers (Sonnet) | {n} | ${cost} | {pct}% |
-| Challenger (Sonnet) | 1 | ${cost} | {pct}% |
-| QA Sub-agents (Sonnet) | {n} | ${cost} | {pct}% |
+| QA Batch | Reviews | Tokens (in/out) | Cost (USD) |
+|----------|---------|-----------------|------------|
+| Task QA | {n} | {in}/{out} | ${cost} |
+| Contract QA | {n} | {in}/{out} | ${cost} |
+| **QA Total** | | | **${total}** |
 
-<!-- Pricing: Opus in=$15/MTok out=$75/MTok | Sonnet in=$3/MTok out=$15/MTok | Haiku in=$0.80/MTok out=$4/MTok -->
+<!-- Pricing (as of 2026-02): Opus in=$15/MTok out=$75/MTok | Sonnet in=$3/MTok out=$15/MTok | Haiku in=$0.80/MTok out=$4/MTok -->
 
 ## Contract Verification
 

@@ -12,9 +12,11 @@ Use this format when producing the review report.
 
 ### Non-compliant Items
 
-| # | File | Line | Standard Item | Issue Description | Suggested Fix |
-|---|------|------|---------------|-------------------|---------------|
-| 1 | ...  | ...  | ...           | ...               | ...           |
+| # | Severity | File | Line | Standard Item | Issue Description | Suggested Fix |
+|---|----------|------|------|---------------|-------------------|---------------|
+| 1 | Critical / Major / Minor | ...  | ...  | ...           | ...               | ...           |
+
+> **Severity levels:** Critical = architectural violation or security issue; Major = pattern/convention breach affecting maintainability; Minor = naming or style inconsistency.
 
 ### Compliant Items Summary
 
@@ -24,7 +26,7 @@ Use this format when producing the review report.
 
 - Items reviewed: N
 - Compliant: N
-- Non-compliant: N
+- Non-compliant: N (Critical: X, Major: Y, Minor: Z)
 - Compliance rate: N%
 ```
 

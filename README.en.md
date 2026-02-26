@@ -29,11 +29,8 @@ All 7 plugins now follow a unified structure:
 ## Installation
 
 ```bash
-# 1. Clone locally
-git clone https://github.com/agony1997/TouchFish-Skills.git
-
-# 2. Add to Claude Code (installs all plugins; enable individual skills as needed)
-claude mcp add-plugin ./path/to/TouchFish-Skills
+# Install directly in Claude Code (supports entire Repo as Marketplace)
+claude mcp add-plugin https://github.com/agony1997/TouchFish-Skills
 ```
 
 > **Tip**: Set `git-nanny` at User scope (globally available); enable others per project.
@@ -42,13 +39,13 @@ claude mcp add-plugin ./path/to/TouchFish-Skills
 
 | Plugin | Version | Type | Description | Guide |
 |--------|---------|------|-------------|-------|
-| `ddd-core` | 1.1.0 | Methodology | DDD end-to-end delivery: Event Storming → SA → SD → Implementation Plan | [Guide](plugins/ddd-core/docs/GUIDE.zh-TW.md) |
-| `git-nanny` | 1.1.0 | Operations | Git Commit, PR, branching strategy, release & Changelog | [Guide](plugins/git-nanny/docs/GUIDE.zh-TW.md) |
-| `reviewer` | 1.1.0 | Review | Project standards reviewer: reads project standards files, runs compliance checks | [Guide](plugins/reviewer/docs/GUIDE.zh-TW.md) |
-| `spec-to-md` | 1.1.0 | Conversion | Spec files → structured AI coding implementation docs | [Guide](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
-| `md-to-code` | 1.1.0 | Implementation | Implementation docs → code (parallel Agent Teams) | [Guide](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
-| `explorer` | 1.1.0 | Exploration | Project explorer: Opus Leader + sub-agents parallel exploration, outputs project map | [Guide](plugins/explorer/docs/GUIDE.zh-TW.md) |
-| `dev-team` | 2.1.0 | Collaboration | Dev team: task pool architecture (TL + challenger + workers), self-assignment, Agent Metrics | [Guide](plugins/dev-team/docs/GUIDE.zh-TW.md) |
+| `ddd-core` | 1.1.0 | Methodology | DDD end-to-end delivery: DDD Theory → Event Storming → SA → SD → Implementation Plan | [Guide](plugins/ddd-core/docs/GUIDE.zh-TW.md) |
+| `git-nanny` | 1.2.0 | Operations | Git Specialist: Commit messages, PR creation & review, branching strategy, releases & Changelog | [Guide](plugins/git-nanny/docs/GUIDE.zh-TW.md) |
+| `reviewer` | 1.1.0 | Review | Project Standards Reviewer: Reads project standard docs, runs compliance checks | [Guide](plugins/reviewer/docs/GUIDE.zh-TW.md) |
+| `spec-to-md` | 1.2.0 | Conversion | Spec to AI Implementation Docs: Generates technical specs, frontend/backend instructions | [Guide](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
+| `md-to-code` | 1.2.0 | Implementation | Implementation Docs to Code: Parallel Agent Teams for backend & frontend | [Guide](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
+| `explorer` | 1.2.0 | Exploration | Project Explorer: Opus Leader directs sub-agents for parallel exploration & project mapping | [Guide](plugins/explorer/docs/GUIDE.zh-TW.md) |
+| `dev-team` | 2.2.0 | Collaboration | Development Team: Task pool architecture (TL + challenger + workers), self-assignment, event-driven QA | [Guide](plugins/dev-team/docs/GUIDE.zh-TW.md) |
 
 ## Architecture Overview
 

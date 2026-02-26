@@ -48,10 +48,15 @@ public class ClassName {
 - **預估檔案數**: N 個
 
 ## 依賴圖
-Task 1 (VO) → Task 3 (Entity)
-Task 2 (Event) → Task 3 (Entity)
-Task 3 (Entity) → Task 5 (Aggregate Root)
-...
+
+```mermaid
+graph LR
+    T1[Task 1: VO] --> T3[Task 3: Entity]
+    T2[Task 2: Event] --> T3
+    T3 --> T5[Task 5: Aggregate Root]
+```
+
+> For plans with 20+ tasks, group nodes by Phase (subgraph) for readability.
 
 ## 任務清單
 

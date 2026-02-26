@@ -3,19 +3,21 @@ name: git-nanny
 description: "Git 全方位專家：涵蓋 Commit 訊息生成、Pull Request 建立與審查、分支策略管理、版本發布與 Changelog。專精 Conventional Commits、Code Review、Git Flow / Trunk-Based / GitHub Flow、Semantic Versioning、Release Notes 撰寫。關鍵字: commit, pull request, PR, branch, release, changelog, git flow, trunk-based, github flow, semantic versioning, conventional commits, code review, git tag, 提交, 分支, 版本發布, 合併請求, 程式碼審查, 更新日誌, 版本號, semver, hotfix, 緊急修復, merge, 合併, 合併策略, rebase, squash, tag, 標籤"
 ---
 
+<!-- version: 1.2.0 -->
+
 You are a Git expert covering commits, PRs, branching strategies, and releases.
 
 ## Safety Rules — ALWAYS ENFORCED
 
-**NEVER execute without explicit user request:**
-- `git push` / `git push --force` / `git push -f`
-- `git reset --hard` / `git checkout .` / `git clean -f`
-- `git rebase --skip` / `git branch -D`
-- `--no-verify` / `--no-gpg-sign` flags
-- Merge or close a PR without confirmation
+Follow Claude Code's built-in git safety rules, plus these git-nanny specific rules:
+
+**Confirm with user before executing:**
+- `git push --force-with-lease` (rewrites remote history)
+- Merge or close a PR
+- `git commit --amend` / `git reset --soft HEAD~1`
 
 **MUST:**
-- Analyze changes before committing
+- Analyze changes before committing (diff review)
 - Present commit message to user for confirmation before execution
 - Use HEREDOC format for multi-line commit messages
 - Verify with `git status` and `git log -1` after commit
@@ -23,27 +25,19 @@ You are a Git expert covering commits, PRs, branching strategies, and releases.
 - Analyze full commit history when creating PRs (not just latest commit)
 - Return PR URL after creation
 
-**NEVER:**
-- Auto-push after commit
-- Amend without explicit request
-- Skip pre-commit hooks
-- Commit sensitive files (.env, credentials, keys)
-
 ---
 
 ## Intent Detection
 
-Route user request to the appropriate section:
-- "commit" / "提交" → Section 1 + load `references/conventional-commits.md`
-- "PR" / "pull request" / "review" → Section 2 + load `references/pr-template.md`
-- "branch" / "分支" / "strategy" → Section 3 + load `references/branch-strategies.md`
-- "release" / "tag" / "changelog" → Section 4 + load `references/release-changelog.md`
+Route user request to the appropriate section(s):
+- "commit" / "提交" / "送交" / "提交訊息" → Section 1 + load `references/conventional-commits.md`
+- "PR" / "pull request" / "review" / "合併請求" / "代碼審查" / "程式碼審查" → Section 2 + load `references/pr-template.md`
+- "branch" / "分支" / "strategy" / "策略" / "分支策略" → Section 3 + load `references/branch-strategies.md`
+- "release" / "tag" / "changelog" / "版本" / "版本號" / "標籤" / "更新日誌" / "發版" / "發布" → Section 4 + load `references/release-changelog.md`
 
-**On-demand loading pattern:**
-```
-Use Glob to locate: skills/git-nanny/references/<file>.md
-Then Read the file for detailed specs, templates, and examples.
-```
+**Multi-section requests:** If a request spans multiple sections (e.g., "commit then create PR"), load all relevant references and execute sections in sequence.
+
+**On-demand loading:** Read the referenced `references/<file>.md` for detailed specs, templates, and examples.
 
 ---
 
@@ -81,9 +75,20 @@ Read `references/pr-template.md` for full workflow, description template, review
 ## Section 3: Branch Strategy
 
 1. Read `references/branch-strategies.md`
-2. Assess project context (team size, release cadence, CI/CD maturity)
+2. Assess project context:
+   - Run `git tag -l` and `git log --oneline -20` to check existing patterns
+   - Check for CI config files (`.github/workflows/`, `Jenkinsfile`, `.gitlab-ci.yml`, etc.)
+   - Check for existing branch naming patterns: `git branch -a`
 3. Recommend strategy: Git Flow / Trunk-Based / GitHub Flow
-4. Provide branch naming conventions and merge strategy guidance
+4. Present recommendation in this format:
+   ```
+   ## Branch Strategy Recommendation
+   **Recommended:** <strategy name>
+   **Reason:** <why this fits the project context>
+   **Branch naming:** <convention with examples>
+   **Merge strategy:** <merge commit / squash / rebase>
+   **Key branches:** <list protected branches>
+   ```
 
 > **Optional integration** — If superpowers plugin is installed, use `superpowers:using-git-worktrees` for isolated development.
 
@@ -113,7 +118,7 @@ git status                    git diff                     git diff --staged
 git add <file>                git add <dir>/               git add -p
 
 # Commit
-git commit -m "message"       git commit --amend           git reset --soft HEAD~1
+git commit -m "message"       git commit --amend  # Confirm first         git reset --soft HEAD~1  # Confirm first
 
 # Branch
 git checkout -b feature/name  git branch -d feature/name   git push origin --delete feature/name
@@ -132,10 +137,10 @@ gh pr view 123                gh pr review 123 --approve   gh pr merge 123 --squ
 ## Decision Flowchart
 
 ```
-User request
+User request (may match multiple sections → execute in sequence)
     │
-    ├── "commit" / "提交"          → Section 1: Commit workflow
-    ├── "PR" / "pull request"      → Section 2: PR workflow
-    ├── "branch" / "分支"          → Section 3: Branch strategy
-    └── "release" / "tag"          → Section 4: Release workflow
+    ├── "commit" / "提交" / "送交"                   → Section 1: Commit workflow
+    ├── "PR" / "pull request" / "合併請求" / "審查"   → Section 2: PR workflow
+    ├── "branch" / "分支" / "策略"                    → Section 3: Branch strategy
+    └── "release" / "tag" / "版本" / "發版"           → Section 4: Release workflow
 ```

@@ -1,6 +1,6 @@
 # dev-team 技能使用指南
 
-> 版本：2.1.0 | 最後更新：2026-02-26
+> 版本：2.2.0 | 最後更新：2026-02-26
 
 ## 這是什麼？
 
@@ -42,17 +42,7 @@ dev-team 是一個**任務池架構的多角色 Agent 團隊協作技能**，讓
 | **worker-1..N** | Sonnet | 開發 Workers：從 TaskList 自取任務、寫程式碼、完成後回報 TL |
 | QA sub-agent | Sonnet | 一次性審查：TL 收到完成通知後 spawn、審查、回傳結果、銷毀 |
 
-### v1.3 → v2.0 關鍵變更
-
-| 項目 | v1.3 | v2.0 |
-|------|------|------|
-| 架構 | TL + pg-leader + qa-leader + explore-leader | **扁平：TL + challenger + workers** |
-| 任務分派 | pg-leader 指派 | **Workers 從 TaskList 自取（任務池）** |
-| 團隊模式 | 輕量 / 完整兩種 | **單一扁平模式** |
-| 品質審查 | qa-leader + sub-agents | **TL 直接 spawn 一次性 QA sub-agent** |
-| 質疑角色 | 無 | **challenger（魔鬼代言人，持續存在）** |
-| 複雜度評分 | 無 | **S(1pt) / M(2pt) / L(3pt)，每 worker 3-5 pts** |
-| File Scope | 無 | **每個任務明確定義 ALLOWED / READONLY / FORBIDDEN** |
+<!-- v1.3 → v2.0 changelog omitted for brevity. See git history for details. -->
 
 ---
 
@@ -89,7 +79,8 @@ TL 先了解你的專案。如果有安裝 `explorer` skill 會自動使用，�
 
 ### Phase 2: API 契約
 
-TL 定義前後端共用的 API 契約，問你確認。確認後成為開發基準。
+如果需求不涉及 API（例如純 batch job、CLI 工具），TL 會跳過此階段。
+否則，TL 定義前後端共用的 API 契約，問你確認。確認後成為開發基準。
 任何契約變更必須經 TL 核准並通知所有 Workers。
 
 ### Phase 3: 組建團隊
@@ -162,8 +153,8 @@ dev-team 會在你指定的輸出目錄（預設 `docs/dev-team/<feature>/`）�
 **TRACE.md** — 雙向綁定核心：`上游規格節 → Req-ID → 任務 → Worker → 開發狀態 → QA 結果`。
 狀態流程：`pending → in-progress → done → qa-pass / qa-fail → fixed`。TL 自動更新。
 
-**PROCESS_LOG.md** — 關鍵事件記錄（非詳細對話）。事件類型：
-`team-assembled`, `task-completed`, `qa-triggered`, `review-pass`, `review-fail`, `issue-reported`, `decision`, `contract-amended`, `phase-transition`
+**PROCESS_LOG.md** — 僅記錄非常規事件（決策、問題、契約修訂、團隊變動、階段轉換）。
+常規狀態變更（task-completed, review-pass, review-fail）由 TRACE 追蹤，不在此重複。
 
 **ISSUES.md** — QA 審查失敗或契約驗證不一致時自動建立條目。
 
@@ -171,9 +162,9 @@ dev-team 會在你指定的輸出目錄（預設 `docs/dev-team/<feature>/`）�
 
 **Agent Metrics（包含在 DELIVERY_REPORT.md 中）** — Phase 6 自動產出：
 - **Team Composition**：每個 agent 的模型、角色、完成任務數
-- **Resource Usage**：耗用時間、token 用量（QA 為精確值，其他為追蹤值）、估算成本
-- **Cost Breakdown**：按角色分組的成本佔比
-- QA sub-agent 的資料來自 Task tool 回傳（`Source: exact`），其他來自 TL 時間戳追蹤（`Source: tracked`）
+- **Resource Usage**：耗用時間（TL 牆鐘追蹤）、token 用量（僅 QA 有精確值，其他標示 `n/a`）
+- **QA Cost Breakdown**：僅列出有精確資料的 QA sub-agent 成本
+- QA sub-agent 的資料來自 Task tool 回傳（`Source: exact`），teammates 的 token 無法透過 API 取得
 
 ---
 
@@ -216,7 +207,7 @@ dev-team 會在你指定的輸出目錄（預設 `docs/dev-team/<feature>/`）�
 
 ```
 plugins/dev-team/
-├── .claude-plugin/plugin.json          ← 插件元資料 (v2.1.0)
+├── .claude-plugin/plugin.json          ← 插件元資料 (v2.2.0)
 ├── skills/dev-team/
 │   ├── SKILL.md                        ← AI 核心指令（英文，始終載入）
 │   ├── prompts/                        ← Spawn 模板（按需載入，每次只讀一個）
@@ -259,4 +250,4 @@ A: 不必。dev-team 可以獨立使用。但如果先用 ddd-core 做完設計�
 A: TL 根據任務點數自動計算（每 worker 3-5 pts，上限 5 workers）。如果你想調整，可以在 Phase 1 確認時告訴 TL。
 
 **Q: Agent Metrics 的資料精確嗎？**
-A: QA sub-agent 的 token 和耗時是精確的（來自 Task tool 回傳）。Workers 和 challenger 的耗時是從 spawn 到 shutdown 的牆鐘時間，token 用量無法精確取得。報告中的 `Source` 欄會標示 `exact` 或 `tracked`。
+A: 只有 QA sub-agent 的 token 和成本是精確的（來自 Task tool 回傳，標示 `exact`）。Workers、challenger 和 TL 的 token 用量無法透過 API 取得，報告中標示為 `n/a`。耗時則是 TL 追蹤的牆鐘時間（`tracked`）。Cost Breakdown 僅列出 QA 的精確成本。

@@ -53,7 +53,7 @@ Other                  → chore
 
 - **Body**: Wrap at 72 chars, use bullet points, explain "what" and "why" (not "how")
 - **Footer**: `BREAKING CHANGE: description`, `Fixes #123`, `Closes #456`
-- **Required**: `Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>`
+- **Required**: `Co-Authored-By: Claude <noreply@anthropic.com>`
 
 ## Commit Message Examples
 
@@ -66,7 +66,7 @@ Implement employee leave request and approval workflow
 - Add manager approval functionality with email notifications
 - Add leave record query and history tracking
 
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
 **Bug fix:**
@@ -80,7 +80,7 @@ Fix incorrect token expiration time calculation in JWT validation
 
 Fixes #1234
 
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
 ## HEREDOC Execution Format
@@ -93,7 +93,7 @@ Implement employee leave request and approval workflow
 - Add leave request form and REST API endpoints
 - Add manager approval with email notifications
 
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
 ```
@@ -134,6 +134,16 @@ git commit -m "fix(module): fix bug Y"
 
 ## Semantic Commits and Auto-Versioning
 
-- `feat:` -> MINOR bump (0.1.0 -> 0.2.0)
-- `fix:` -> PATCH bump (0.1.0 -> 0.1.1)
-- `BREAKING CHANGE:` -> MAJOR bump (0.1.0 -> 1.0.0)
+| Commit Type | Version Bump | Reason |
+|-------------|-------------|--------|
+| `feat:` | MINOR | New feature |
+| `fix:` | PATCH | Bug fix |
+| `perf:` | PATCH | Performance improvement (no new API) |
+| `refactor:` | PATCH | Internal restructure |
+| `docs:` | PATCH | Documentation only |
+| `style:` | PATCH | Formatting, no logic change |
+| `test:` | PATCH | Test additions/changes |
+| `build:` | PATCH | Build system / dependency updates |
+| `ci:` | — (no bump) | CI/CD configuration |
+| `chore:` | — (no bump) | Non-source maintenance |
+| `BREAKING CHANGE:` | MAJOR | Any breaking change (in footer or `!` suffix) |

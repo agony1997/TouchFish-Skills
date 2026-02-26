@@ -40,7 +40,7 @@ git checkout main && git merge --no-ff release/1.2.0
 git tag -a v1.2.0 -m "Release version 1.2.0"
 git checkout develop && git merge --no-ff release/1.2.0
 git branch -d release/1.2.0
-git push origin main develop --tags
+git push origin main develop --tags    # Confirm with user before pushing
 ```
 
 ### Hotfix Flow
@@ -52,7 +52,7 @@ git checkout main && git merge --no-ff hotfix/security-fix
 git tag -a v1.2.1 -m "Hotfix: security vulnerability"
 git checkout develop && git merge --no-ff hotfix/security-fix
 git branch -d hotfix/security-fix
-git push origin main develop --tags
+git push origin main develop --tags    # Confirm with user before pushing
 ```
 
 ## Trunk-Based Development
