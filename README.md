@@ -48,7 +48,7 @@ claude mcp add-plugin ./path/to/TouchFish-Skills
 | `spec-to-md` | 1.1.0 | 轉換流程 | 規格文件 → 結構化 AI Coding 實作文件 | [指南](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
 | `md-to-code` | 1.1.0 | 實作流程 | 實作文件 → 程式碼（並行 Agent Teams） | [指南](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
 | `explorer` | 1.1.0 | 探索工具 | 專案探索者：Opus Leader + sub-agents 並行探索，產出專案地圖 | [指南](plugins/explorer/docs/GUIDE.zh-TW.md) |
-| `dev-team` | 1.1.0 | 團隊協作 | 開發團隊：多角色流水線（PM/開發者/QA），動態規模，混合 agents | [指南](plugins/dev-team/docs/GUIDE.zh-TW.md) |
+| `dev-team` | 2.1.0 | 團隊協作 | 開發團隊：任務池架構（TL + challenger + workers），自取任務、Agent Metrics | [指南](plugins/dev-team/docs/GUIDE.zh-TW.md) |
 
 ## 架構概覽
 
@@ -111,8 +111,13 @@ touchfish-skills/
 │   │   └── docs/GUIDE.zh-TW.md
 │   ├── md-to-code/                      # 同 spec-to-md 結構
 │   ├── explorer/                        # 含 prompts/ + references/
-│   └── dev-team/                        # 含 prompts/（4 角色模板）
-└── docs/plans/                          # 設計與計畫文件
+│   └── dev-team/
+│       ├── skills/dev-team/
+│       │   ├── SKILL.md
+│       │   ├── prompts/                 # challenger.md + worker.md
+│       │   └── references/              # 5 追蹤模板 + qa-review-template
+│       └── docs/GUIDE.zh-TW.md
+└── LICENSE
 ```
 
 ## Attribution
