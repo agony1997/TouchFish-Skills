@@ -42,7 +42,7 @@ claude mcp add-plugin https://github.com/agony1997/TouchFish-Skills
 | `spec-to-md` | 1.2.0 | 轉換流程 | 規格文件轉 AI Coding 實作文件：產出技術規格、前後端實作指示 | [指南](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
 | `md-to-code` | 1.2.0 | 實作流程 | 根據實作文件實作程式碼：並行 Agent Teams 開發後端與前端 | [指南](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
 | `explorer` | 1.2.0 | 探索工具 | 專案探索者：Opus Leader 指揮 sub-agents 並行探索，交叉比對產出專案地圖 | [指南](plugins/explorer/docs/GUIDE.zh-TW.md) |
-| `dev-team` | 2.2.0 | 團隊協作 | 開發團隊：任務池架構（TL + challenger + workers），自取任務、事件驅動 QA | [指南](plugins/dev-team/docs/GUIDE.zh-TW.md) |
+| `dev-team` | 3.0.0 | 團隊協作 | 開發團隊：1-task-per-worker teammates、分離測試、三方交叉驗證 QA、LLM-native 文件架構 | [指南](plugins/dev-team/docs/GUIDE.zh-TW.md) |
 
 ## 架構概覽
 
@@ -108,8 +108,8 @@ touchfish-skills/
 │   └── dev-team/
 │       ├── skills/dev-team/
 │       │   ├── SKILL.md
-│       │   ├── prompts/                 # challenger.md + worker.md
-│       │   └── references/              # 5 追蹤模板 + qa-review-template
+│       │   ├── prompts/                 # worker + test-agent + qa-task + qa-global + delivery-sub
+│       │   └── references/              # plan + contract + delivery + log 模板
 │       └── docs/GUIDE.zh-TW.md
 └── LICENSE
 ```
