@@ -7,6 +7,27 @@
 
 ## [未發布]
 
+## [2026-03-02] - dev-team v3.0.0
+
+### 破壞性變更
+- **dev-team 架構重構至 v3.0.0**：
+    - 移除 Challenger 角色，品質保證改由 per-task 三方交叉驗證 QA + Phase 4 全域審查
+    - Worker 從任務池自取改為 **1-task-per-worker**（TL 指派，完成即 shutdown）
+    - 新增 **分離測試**：test-agent（Opus sub-agent）先寫測試 → Worker 寫 code → QA 審查
+    - 文件架構改為 **LLM-native 格式**（PLAN + CONTRACT）+ Markdown（DELIVERY）+ 分散式 logs/
+    - Phase 從 6 個精簡為 **5 個**（P0 偵察→P1 規劃→P2 Contract→P3 開發→P4 全域審查→P5 交付）
+    - 移除 TRACE / PROCESS_LOG / ISSUES 文件，改用 TaskList + 分散式 append-only log
+
+### 新增
+- **新 prompts**：`test-agent.md`、`qa-task.md`、`qa-global.md`、`delivery-sub.md`
+- **新 references**：`plan-template.md`、`log-templates.md`（替換舊模板）
+- **探測增強**：Phase 0 偵測 6 個整合目標（explorer、PROJECT_MAP、TDD、reviewer、.standards、OpenSpec）
+- **DELIVERY 升級**：從簡要報告升級為 8 區塊開發回歸文件
+
+### 移除
+- `prompts/challenger.md`
+- `references/trace-template.md`、`process-log-template.md`、`issues-template.md`、`qa-review-template.md`
+
 ## [2026-02-26] - 品質修復 v1.2.0 / dev-team v2.2.0
 
 ### 修復

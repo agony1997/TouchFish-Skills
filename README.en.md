@@ -45,7 +45,7 @@ claude mcp add-plugin https://github.com/agony1997/TouchFish-Skills
 | `spec-to-md` | 1.2.0 | Conversion | Spec to AI Implementation Docs: Generates technical specs, frontend/backend instructions | [Guide](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
 | `md-to-code` | 1.2.0 | Implementation | Implementation Docs to Code: Parallel Agent Teams for backend & frontend | [Guide](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
 | `explorer` | 1.2.0 | Exploration | Project Explorer: Opus Leader directs sub-agents for parallel exploration & project mapping | [Guide](plugins/explorer/docs/GUIDE.zh-TW.md) |
-| `dev-team` | 2.2.0 | Collaboration | Development Team: Task pool architecture (TL + challenger + workers), self-assignment, event-driven QA | [Guide](plugins/dev-team/docs/GUIDE.zh-TW.md) |
+| `dev-team` | 3.0.0 | Collaboration | Development Team: 1-task-per-worker teammates, separated testing, three-way cross-verification QA, LLM-native file architecture | [Guide](plugins/dev-team/docs/GUIDE.zh-TW.md) |
 
 ## Architecture Overview
 
@@ -111,8 +111,8 @@ touchfish-skills/
 │   └── dev-team/
 │       ├── skills/dev-team/
 │       │   ├── SKILL.md
-│       │   ├── prompts/                 # challenger.md + worker.md
-│       │   └── references/              # 5 tracking templates + qa-review-template
+│       │   ├── prompts/                 # worker + test-agent + qa-task + qa-global + delivery-sub
+│       │   └── references/              # plan + contract + delivery + log templates
 │       └── docs/GUIDE.zh-TW.md
 └── LICENSE
 ```
