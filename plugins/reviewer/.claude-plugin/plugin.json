@@ -1,7 +1,7 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "name": "reviewer",
-  "description": "專案規範審查員：讀取專案內的規範文件，執行程式碼合規審查",
+  "description": "專案規範審查與萃取：讀取專案內的規範文件執行合規審查，或從現有程式碼反向萃取隱含慣例產出 .standards/ 草稿",
   "author": {
     "name": "Custom Skills"
   },

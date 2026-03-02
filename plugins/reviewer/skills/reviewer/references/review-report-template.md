@@ -52,3 +52,6 @@ Suggested sections (pick what applies):
 - Code style (utility classes, error handling, API format, logging)
 - Database conventions (entity mapping, migration naming, indexes)
 - Frontend conventions (component structure, state management, type definitions)
+
+> No standards yet? Use the extraction workflow to auto-generate drafts from existing code.
+> Say "extract standards" or "萃取規範" to start.
