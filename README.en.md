@@ -2,6 +2,7 @@
 
 > Workflow-oriented skill plugins for Claude Code — 6 plugins covering DDD, Git, code review, spec conversion, implementation, and project exploration.
 
+[![Version](https://img.shields.io/badge/version-2.0.0-green.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Plugins](https://img.shields.io/badge/plugins-6-blue.svg)](.claude-plugin/marketplace.json)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blueviolet.svg)](https://docs.anthropic.com/en/docs/claude-code)
@@ -22,11 +23,11 @@ All 6 plugins now follow a unified structure:
 - **references/ + prompts/** (on-demand) — loaded via Glob + Read to minimize context usage
 - **docs/GUIDE.zh-TW.md** — Chinese human-readable guide
 
-| Metric | v1.0.0 | v1.1.0 |
-|--------|--------|--------|
-| Total SKILL.md lines (6 plugins) | ~2,895 | ~752 (-74%) |
-| On-demand reference files | 1 | 13 |
-| Human guides | 1 | 6 |
+| Metric | v1.0.0 | v1.1.0 Unified | Current |
+|--------|--------|---------------|---------|
+| Total SKILL.md lines (6 plugins) | ~2,895 | ~752 (-74%) | ~914 (-68%) |
+| On-demand reference files | 1 | 13 | 19 |
+| Human guides | 1 | 6 | 6 |
 
 ## Installation
 
@@ -41,10 +42,10 @@ claude mcp add-plugin https://github.com/agony1997/TouchFish-Skills
 
 | Plugin | Version | Type | Description | Guide |
 |--------|---------|------|-------------|-------|
-| `ddd-core` | 1.1.0 | Methodology | DDD end-to-end delivery: DDD Theory → Event Storming → SA → SD → Implementation Plan | [Guide](plugins/ddd-core/docs/GUIDE.zh-TW.md) |
+| `ddd-core` | 1.1.1 | Methodology | DDD end-to-end delivery: DDD Theory → Event Storming → SA → SD → Implementation Plan | [Guide](plugins/ddd-core/docs/GUIDE.zh-TW.md) |
 | `git-nanny` | 1.2.0 | Operations | Git Specialist: Commit messages, PR creation & review, branching strategy, releases & Changelog | [Guide](plugins/git-nanny/docs/GUIDE.zh-TW.md) |
-| `reviewer` | 1.1.0 | Review | Project Standards Reviewer: Reads project standard docs, runs compliance checks | [Guide](plugins/reviewer/docs/GUIDE.zh-TW.md) |
-| `spec-to-md` | 1.2.0 | Conversion | Spec to AI Implementation Docs: Generates technical specs, frontend/backend instructions | [Guide](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
+| `reviewer` | 1.3.0 | Review | Standards Review & Extraction: Compliance checks + reverse-extract conventions into `.standards/` drafts | [Guide](plugins/reviewer/docs/GUIDE.zh-TW.md) |
+| `spec-to-md` | 1.1.1 | Conversion | Spec to AI Implementation Docs: Generates technical specs, frontend/backend instructions | [Guide](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
 | `md-to-code` | 1.2.0 | Implementation | Implementation Docs to Code: Parallel Agent Teams for backend & frontend | [Guide](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
 | `explorer` | 1.2.0 | Exploration | Project Explorer: Opus Leader directs sub-agents for parallel exploration & project mapping | [Guide](plugins/explorer/docs/GUIDE.zh-TW.md) |
 
@@ -58,6 +59,9 @@ Requirements ──→ ddd-core ──→ spec-to-md ──→ md-to-code ──
 
 Exploration ───→ explorer ──→ PROJECT_MAP.md
                   (Parallel)
+
+Review ────────→ reviewer ──→ Compliance Report / .standards/ Drafts
+                  (Standards Review + Convention Extraction)
 
 Large Feature ─→ TouchFish-DevTeam ──→ PM → API Contract → Dev + QA Pipeline → Delivery
                   (Standalone repo)     https://github.com/agony1997/TouchFish-DevTeam
@@ -92,7 +96,9 @@ Below are recommended skill combinations for common scenarios. **Bold** items ar
 
 ```
 touchfish-skills/
+├── .claude-plugin/marketplace.json      # Marketplace config (v2.0.0)
 ├── README.md / README.en.md
+├── CHANGELOG.md
 ├── LICENSE
 ├── plugins/
 │   ├── ddd-core/
@@ -102,7 +108,7 @@ touchfish-skills/
 │   │   │   └── references/              # On-demand (theory, templates)
 │   │   └── docs/GUIDE.zh-TW.md          # Chinese human guide
 │   ├── git-nanny/                       # Same structure
-│   ├── reviewer/                        # Same structure
+│   ├── reviewer/                        # Has prompts/ (extraction sub-agent)
 │   ├── spec-to-md/
 │   │   ├── skills/spec-to-md/
 │   │   │   ├── SKILL.md
@@ -111,10 +117,7 @@ touchfish-skills/
 │   │   └── docs/GUIDE.zh-TW.md
 │   ├── md-to-code/                      # Same as spec-to-md
 │   └── explorer/                        # Has prompts/ + references/
-└── LICENSE
 ```
-
-> **dev-team** has been extracted to a standalone repo: [TouchFish-DevTeam](https://github.com/agony1997/TouchFish-DevTeam)
 
 ## Attribution
 

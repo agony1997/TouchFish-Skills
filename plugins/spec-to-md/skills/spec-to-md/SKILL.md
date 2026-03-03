@@ -7,7 +7,7 @@ description: >
   to md、toMD、toMd、TOMD、specification, 規格文件, 需求文件, 需求轉換, 實作指示, 實作文件, 技術規格, 文件生成, 文件產生, 前端實作, 後端實作, convert, 轉換。
 ---
 
-<!-- version: 1.2.0 -->
+<!-- version: 1.1.1 -->
 
 # Spec-to-MD
 

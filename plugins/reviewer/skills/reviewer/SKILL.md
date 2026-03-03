@@ -9,7 +9,7 @@ description: >
   extract, 萃取, generate standards, 產出規範, 慣例分析。
 ---
 
-<!-- version: 1.2.0 -->
+<!-- version: 1.3.0 -->
 
 # Standards Reviewer
 

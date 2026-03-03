@@ -194,7 +194,7 @@ AI：（更新版本、changelog、commit、tag、建立 GitHub Release）
 ```
 plugins/git-nanny/
 ├── .claude-plugin/
-│   └── plugin.json                         ← 插件設定（v1.1.0）
+│   └── plugin.json                         ← 插件設定（v1.2.0）
 ├── skills/git-nanny/
 │   ├── SKILL.md                            ← AI 指令（英文，~130 行）
 │   └── references/                         ← 按需載入的參考文件

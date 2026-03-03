@@ -1,6 +1,6 @@
 # spec-to-md 技能使用指南
 
-> 版本：1.2.0 | 最後更新：2026-02-26
+> 版本：1.1.1 | 最後更新：2026-03-03
 
 ## 這是什麼？
 
@@ -167,7 +167,7 @@ spec        spec        <-- teammates（各自獨立 context）
 
 ```
 plugins/spec-to-md/
-├── .claude-plugin/plugin.json          ← 插件元資料 (v1.2.0)
+├── .claude-plugin/plugin.json          ← 插件元資料 (v1.1.1)
 ├── skills/spec-to-md/
 │   ├── SKILL.md                        ← AI 核心指令（英文，始終載入）
 │   ├── prompts/                        ← Spawn 模板（按需載入）

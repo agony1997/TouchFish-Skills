@@ -150,7 +150,7 @@ Phase 3: 產出完整的 PROJECT_MAP.md（含模組清單、依賴關係）
 
 ```
 plugins/explorer/
-├── .claude-plugin/plugin.json              ← 插件設定（v1.1.0）
+├── .claude-plugin/plugin.json              ← 插件設定（v1.2.0）
 ├── skills/explorer/
 │   ├── SKILL.md                            ← AI 指令（英文，~100 行）
 │   ├── prompts/

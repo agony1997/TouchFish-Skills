@@ -1,6 +1,6 @@
 # reviewer 技能使用指南
 
-> 版本：1.2.0 | 最後更新：2026-03-02
+> 版本：1.3.0 | 最後更新：2026-03-03
 
 ## 這是什麼？
 
@@ -206,7 +206,7 @@ extract standards from this project
 ```
 plugins/reviewer/
 ├── .claude-plugin/
-│   └── plugin.json                        # 插件設定（v1.2.0）
+│   └── plugin.json                        # 插件設定（v1.3.0）
 ├── skills/reviewer/
 │   ├── SKILL.md                           # AI 指令（英文，~140 行）
 │   ├── prompts/

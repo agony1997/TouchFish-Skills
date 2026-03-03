@@ -1,6 +1,6 @@
 # ddd-core 技能使用指南
 
-> 版本：1.1.0 | 最後更新：2026-02-26
+> 版本：1.1.1 | 最後更新：2026-03-03
 
 ## 這是什麼？
 
@@ -213,7 +213,7 @@ ddd-core 可與 superpowers 插件搭配使用：
 ```
 plugins/ddd-core/
 ├── .claude-plugin/
-│   └── plugin.json                         ← 插件設定（v1.1.0）
+│   └── plugin.json                         ← 插件設定（v1.1.1）
 ├── skills/ddd-core/
 │   ├── SKILL.md                            ← AI 指令（英文，~150 行）
 │   └── references/                         ← 按需載入的參考資料
