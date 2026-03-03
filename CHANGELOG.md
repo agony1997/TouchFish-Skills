@@ -7,6 +7,13 @@
 
 ## [未發布]
 
+## [2026-03-03] - 拆分 dev-team
+
+### 變更
+- **dev-team 拆分為獨立 repo**：[TouchFish-DevTeam](https://github.com/agony1997/TouchFish-DevTeam)。
+  dev-team 是「編制框架」（完整開發系統），與其他 6 個「管線單元」在本質上不同，故獨立管理。
+- marketplace 版本升級至 6.0.0（7 plugins → 6 plugins）
+
 ## [2026-03-02] - dev-team v3.0.0
 
 ### 破壞性變更

@@ -1,20 +1,22 @@
 # touchfish-skills
 
-> Workflow-oriented skill plugins for Claude Code — 7 plugins covering DDD, Git, code review, spec conversion, implementation, project exploration, and team collaboration.
+> Workflow-oriented skill plugins for Claude Code — 6 plugins covering DDD, Git, code review, spec conversion, implementation, and project exploration.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Plugins](https://img.shields.io/badge/plugins-7-blue.svg)](.claude-plugin/marketplace.json)
+[![Plugins](https://img.shields.io/badge/plugins-6-blue.svg)](.claude-plugin/marketplace.json)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blueviolet.svg)](https://docs.anthropic.com/en/docs/claude-code)
 
 [繁體中文](README.md) | **English**
 
-A Claude Code skill plugin marketplace with 7 workflow-oriented plugins.
+A Claude Code skill plugin marketplace with 6 workflow-oriented plugins.
 
 > **Design Principle**: Only keep skills with clear workflows. Pure domain knowledge (Spring Boot, PostgreSQL, Vue.js, etc.) is left to Claude's built-in capabilities; process methodologies (TDD, brainstorming, debugging) are handled by external plugins like superpowers.
 
+> **Looking for dev-team?** It has been extracted to a standalone repo: [TouchFish-DevTeam](https://github.com/agony1997/TouchFish-DevTeam).
+
 ### v1.1.0 Unified Architecture (2026-02-26)
 
-All 7 plugins now follow a unified structure:
+All 6 plugins now follow a unified structure:
 
 - **English SKILL.md** (60–150 lines) — always loaded by AI, terse directive style
 - **references/ + prompts/** (on-demand) — loaded via Glob + Read to minimize context usage
@@ -22,9 +24,9 @@ All 7 plugins now follow a unified structure:
 
 | Metric | v1.0.0 | v1.1.0 |
 |--------|--------|--------|
-| Total SKILL.md lines (7 plugins) | ~3,055 | ~912 (-70%) |
-| On-demand reference files | 1 | 18 |
-| Human guides | 1 | 7 |
+| Total SKILL.md lines (6 plugins) | ~2,895 | ~752 (-74%) |
+| On-demand reference files | 1 | 13 |
+| Human guides | 1 | 6 |
 
 ## Installation
 
@@ -45,7 +47,8 @@ claude mcp add-plugin https://github.com/agony1997/TouchFish-Skills
 | `spec-to-md` | 1.2.0 | Conversion | Spec to AI Implementation Docs: Generates technical specs, frontend/backend instructions | [Guide](plugins/spec-to-md/docs/GUIDE.zh-TW.md) |
 | `md-to-code` | 1.2.0 | Implementation | Implementation Docs to Code: Parallel Agent Teams for backend & frontend | [Guide](plugins/md-to-code/docs/GUIDE.zh-TW.md) |
 | `explorer` | 1.2.0 | Exploration | Project Explorer: Opus Leader directs sub-agents for parallel exploration & project mapping | [Guide](plugins/explorer/docs/GUIDE.zh-TW.md) |
-| `dev-team` | 3.0.0 | Collaboration | Development Team: 1-task-per-worker teammates, separated testing, three-way cross-verification QA, LLM-native file architecture | [Guide](plugins/dev-team/docs/GUIDE.zh-TW.md) |
+
+> **Need large-feature team collaboration?** Use [TouchFish-DevTeam](https://github.com/agony1997/TouchFish-DevTeam) (dev-team v3.0.0).
 
 ## Architecture Overview
 
@@ -56,8 +59,8 @@ Requirements ──→ ddd-core ──→ spec-to-md ──→ md-to-code ──
 Exploration ───→ explorer ──→ PROJECT_MAP.md
                   (Parallel)
 
-Large Feature ─→ dev-team ──→ PM → API Contract → Dev + QA Pipeline → Delivery
-                  (Multi-role)
+Large Feature ─→ TouchFish-DevTeam ──→ PM → API Contract → Dev + QA Pipeline → Delivery
+                  (Standalone repo)     https://github.com/agony1997/TouchFish-DevTeam
 ```
 
 ## Companion Plugins
@@ -76,7 +79,7 @@ Below are recommended skill combinations for common scenarios. **Bold** items ar
 |----------|--------------------|----------|
 | Onboarding to a project | **`explorer`** | Parallel exploration → PROJECT_MAP.md |
 | New feature (full DDD) | `brainstorming` → **`ddd-core`** → **`spec-to-md`** → **`md-to-code`** → **`git-nanny`** | Brainstorm → DDD 4 phases → Generate docs → Parallel impl → Commit/PR |
-| New feature (large team) | **`dev-team`** | PM analysis → API contract → Multi-role pipeline → QA review → Delivery |
+| New feature (large team) | [TouchFish-DevTeam](https://github.com/agony1997/TouchFish-DevTeam) `dev-team` | PM analysis → API contract → Multi-role pipeline → QA review → Delivery |
 | New feature (lightweight) | `brainstorming` → `writing-plans` → **`md-to-code`** → **`git-nanny`** | Brainstorm → Write plan → Implement → Commit/PR |
 | Bug fix | `systematic-debugging` → `test-driven-development` → **`git-nanny`** | Systematic diagnosis → TDD fix → Commit/PR |
 | Code review | **`reviewer`** + `requesting-code-review` | Standards review + Review workflow |
@@ -107,15 +110,11 @@ touchfish-skills/
 │   │   │   └── references/
 │   │   └── docs/GUIDE.zh-TW.md
 │   ├── md-to-code/                      # Same as spec-to-md
-│   ├── explorer/                        # Has prompts/ + references/
-│   └── dev-team/
-│       ├── skills/dev-team/
-│       │   ├── SKILL.md
-│       │   ├── prompts/                 # worker + test-agent + qa-task + qa-global + delivery-sub
-│       │   └── references/              # plan + contract + delivery + log templates
-│       └── docs/GUIDE.zh-TW.md
+│   └── explorer/                        # Has prompts/ + references/
 └── LICENSE
 ```
+
+> **dev-team** has been extracted to a standalone repo: [TouchFish-DevTeam](https://github.com/agony1997/TouchFish-DevTeam)
 
 ## Attribution
 
